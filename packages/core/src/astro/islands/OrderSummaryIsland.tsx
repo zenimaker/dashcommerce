@@ -33,7 +33,7 @@ function moneyMinorDigits(currency: string, locale: string) {
 	return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions().maximumFractionDigits;
 }
 
-function formatMoney(m: Money, locale = "en-US") {
+function formatMoney(m: Money, locale = "ja-JP") {
 	try {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",
@@ -108,11 +108,10 @@ export default function OrderSummaryIsland({
 	if (timedOut) {
 		return (
 			<div role="alert">
-				<h2>Processing your payment</h2>
+				<h2>お支払いを処理しています</h2>
 				<p>
-					Your payment is still being confirmed. You'll receive a receipt email
-					shortly. If you have any concern, contact support with reference{" "}
-					<code>{orderDraftId}</code>.
+					お支払いの確認がまだ完了していません。まもなく領収書のメールが届きます。ご不明な点は、照会番号{" "}
+					<code>{orderDraftId}</code> を添えてサポートへご連絡ください。
 				</p>
 			</div>
 		);
@@ -121,8 +120,8 @@ export default function OrderSummaryIsland({
 	if (!result || result.status === "pending") {
 		return (
 			<div>
-				<h2>Confirming your order…</h2>
-				<p>Hold on, we're finalizing your payment.</p>
+				<h2>ご注文を確認しています…</h2>
+				<p>お支払いの確定まで、少々お待ちください。</p>
 			</div>
 		);
 	}
@@ -130,10 +129,10 @@ export default function OrderSummaryIsland({
 	if (result.status === "failed") {
 		return (
 			<div role="alert">
-				<h2>We couldn't confirm your payment</h2>
+				<h2>お支払いを確認できませんでした</h2>
 				<p>
-					If you were charged, please contact support with reference{" "}
-					<code>{orderDraftId}</code>.
+					請求が発生している場合は、照会番号{" "}
+					<code>{orderDraftId}</code> を添えてサポートへご連絡ください。
 				</p>
 			</div>
 		);
@@ -142,9 +141,9 @@ export default function OrderSummaryIsland({
 	const { order, items } = result;
 	return (
 		<section className="dc-order-summary">
-			<h2>Thanks for your order, #{order.orderNumber}</h2>
+			<h2>ご注文ありがとうございました（注文番号 {order.orderNumber}）</h2>
 			<p>
-				A receipt has been sent to <strong>{order.customerEmail}</strong>.
+				領収書を <strong>{order.customerEmail}</strong> に送信しました。
 			</p>
 			<ul>
 				{items.map((it) => (
@@ -154,7 +153,7 @@ export default function OrderSummaryIsland({
 				))}
 			</ul>
 			<p className="dc-total">
-				<strong>Total:</strong> {formatMoney(order.total)}
+				<strong>合計:</strong> {formatMoney(order.total)}
 			</p>
 			<style>{`
         .dc-order-summary {

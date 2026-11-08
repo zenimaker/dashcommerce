@@ -8,9 +8,9 @@ export const prerender = false;
 const { token } = Astro.params;
 
 // Core-only feature: not available in the sandboxed edition.
-if (SANDBOXED) return new Response("Not found", { status: 404 });
+if (SANDBOXED) return new Response("ページが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 ---
-<Shop title="Your subscription">
+<Shop title="定期購入" description="定期購入の確認と変更ができます。">
 	<div class="container-narrow" style="padding: 2rem 0;">
 		<SubscriptionPortal token={token ?? ""} />
 	</div>

@@ -90,13 +90,13 @@ export const reviewsPublicRoutes = {
 			};
 			if (!input.productId || typeof input.rating !== "number" || !input.body) {
 				return json(
-					{ error: "productId, rating, and body are required" },
+					{ error: "商品、評価、本文は必須です" },
 					400,
 				);
 			}
 			if (!input.customerName || !input.customerEmail) {
 				return json(
-					{ error: "customerName and customerEmail are required" },
+					{ error: "お名前とメールアドレスは必須です" },
 					400,
 				);
 			}
@@ -117,7 +117,7 @@ export const reviewsPublicRoutes = {
 				ctx.log.error("Review submission failed", {
 					error: err instanceof Error ? err.message : String(err),
 				});
-				return json({ error: "Review submission failed" }, 500);
+				return json({ error: "レビューを送信できませんでした" }, 500);
 			}
 		},
 	},

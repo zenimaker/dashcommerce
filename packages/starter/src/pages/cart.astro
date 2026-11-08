@@ -5,24 +5,24 @@ import Cart from "../components/Cart.astro";
 import { SANDBOXED } from "../lib/edition";
 ---
 
-<Shop title="Your Cart" description="Review your cart before checkout.">
+<Shop title="カート" description="ご注文の前に、カートの内容をご確認ください。">
   <!-- Cart hero -->
   <div class="cart-hero">
     <div class="container">
-      <nav class="cart-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
+      <nav class="cart-breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
         <span aria-hidden="true">›</span>
-        <span aria-current="page">Cart</span>
+        <span aria-current="page">カート</span>
       </nav>
-      <h1 class="cart-title">Your Cart</h1>
+      <h1 class="cart-title">カート</h1>
     </div>
   </div>
 
   <div class="container cart-body">
-    {SANDBOXED ? <Cart /> : <CartPage checkoutHref="/checkout" shopHref="/shop" />}
+    {SANDBOXED ? <Cart /> : <CartPage checkoutHref="/checkout" shopHref="/shop" locale="ja-JP" />}
     <div class="cart-footer-note">
       <span class="cart-secure-icon" aria-hidden="true">🔒</span>
-      Secure checkout powered by Stripe. Your payment information is never stored on our servers.
+      お支払いはStripeの安全な決済です。カード情報は当ショップのサーバーに保存しません。
     </div>
   </div>
 </Shop>

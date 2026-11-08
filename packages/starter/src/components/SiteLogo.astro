@@ -35,8 +35,8 @@ const {
 } = Astro.props;
 const meta = await getSiteMeta();
 
-// Accessible label: prefer explicit, else "<title> — Home"
-const label = ariaLabel ?? `${meta.title} — Home`;
+// Accessible label: prefer explicit, else "<title>のホーム"
+const label = ariaLabel ?? `${meta.title}のホーム`;
 
 // If the admin has uploaded a logo, use it. Otherwise fall back to the
 // starter's original star-glyph + wordmark so a fresh install still looks

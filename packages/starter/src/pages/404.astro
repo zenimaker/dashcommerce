@@ -1,0 +1,28 @@
+---
+import Shop from "../layouts/Shop.astro";
+---
+
+<Shop title="ページが見つかりません" description="お探しのページは見つかりませんでした。">
+	<div class="container not-found">
+		<p class="not-found-code">404</p>
+		<h1>ページが見つかりません</h1>
+		<p>アドレスをご確認いただくか、ショップの一覧からお探しください。</p>
+		<p><a href="/shop">ショップを見る</a></p>
+	</div>
+</Shop>
+
+<style>
+	.not-found {
+		padding: 5rem 0 6rem;
+		text-align: center;
+	}
+	.not-found-code {
+		margin: 0 0 0.5rem;
+		color: var(--gold);
+		font-size: 0.85rem;
+		letter-spacing: 0.12em;
+	}
+	.not-found h1 { margin: 0 0 1rem; }
+	.not-found p { color: var(--text-muted); }
+	.not-found a { color: var(--gold); }
+</style>

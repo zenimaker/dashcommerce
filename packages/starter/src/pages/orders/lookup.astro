@@ -3,35 +3,34 @@ import Shop from "../../layouts/Shop.astro";
 import { SANDBOXED } from "../../lib/edition";
 
 // Core-only feature: not available in the sandboxed edition.
-if (SANDBOXED) return new Response("Not found", { status: 404 });
+if (SANDBOXED) return new Response("ページが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 ---
-<Shop title="Look up an order" description="Find a past order by its ID.">
+<Shop title="注文を検索" description="注文IDから過去の注文を表示します。">
 	<div class="container-narrow" style="padding: 3rem 0;">
-		<h1>Look up an order</h1>
+		<h1>注文を検索</h1>
 		<p class="lead">
-			Your confirmation email contains a link to your receipt —
-			<code>/thank-you/&lt;orderId&gt;</code>. Paste the ID (or the whole link)
-			below.
+			確認メールには領収書へのリンク
+			<code>/thank-you/&lt;注文ID&gt;</code>
+			が入っています。ID、またはリンク全体を下に貼り付けてください。
 		</p>
 
 		<form id="lookup" class="lookup-form" novalidate>
 			<label class="lk-label">
-				<span>Order ID or receipt link</span>
+				<span>注文IDまたは領収書のリンク</span>
 				<input
 					id="orderId"
 					required
 					autocomplete="off"
-					placeholder="01K…  or  https://…/thank-you/01K…"
+					placeholder="01K…  または  https://…/thank-you/01K…"
 				/>
 			</label>
 			<p id="lk-error" role="alert" class="lk-error"></p>
-			<button type="submit" class="btn-primary">Find my order →</button>
+			<button type="submit" class="btn-primary">注文を表示</button>
 		</form>
 
 		<p class="fineprint">
-			Can't find the email? Check spam, or
-			<a href="mailto:support">contact support</a> with the email address and
-			approximate date you placed the order.
+			メールが見つからない場合は、迷惑メールもご確認ください。それでもないときは、
+			<a href="mailto:support">サポート</a>へ、注文時のメールアドレスとおおよその日付をお知らせください。
 		</p>
 	</div>
 </Shop>
@@ -103,7 +102,7 @@ if (SANDBOXED) return new Response("Not found", { status: 404 });
 		setErr(null);
 		const id = extractId(input?.value ?? "");
 		if (!id) {
-			setErr("That doesn't look like an order ID. Check your receipt email.");
+			setErr("注文IDの形式ではないようです。領収書のメールをご確認ください。");
 			return;
 		}
 		window.location.href = `/thank-you/${encodeURIComponent(id)}`;

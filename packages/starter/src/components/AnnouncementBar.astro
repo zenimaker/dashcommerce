@@ -17,9 +17,9 @@ interface Props {
 }
 const {
 	messages: fallbackMessages = [
-		"Free shipping on orders over $75",
-		"30-day returns, no questions asked",
-		"Secure checkout powered by Stripe",
+		"¥7,500以上のご注文で送料無料",
+		"30日間、理由を問わず返品できます",
+		"お支払いはStripeの安全な決済です",
 	],
 } = Astro.props;
 
@@ -60,7 +60,7 @@ const all = [...items, ...items];
 ---
 
 {items.length > 0 && (
-	<div class="ann-bar" role="banner" aria-label="Site announcements">
+	<div class="ann-bar" role="banner" aria-label="お知らせ">
 		<div class="ann-track" aria-hidden="true">
 			{all.map((it, i) => (
 				<>

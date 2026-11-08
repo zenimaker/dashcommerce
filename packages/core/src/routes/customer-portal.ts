@@ -84,7 +84,7 @@ async function handlePortalLink(
 	const rawEmail = (input.email ?? "").trim().toLowerCase();
 
 	if (!rawEmail || !isValidEmail(rawEmail)) {
-		return jsonResponse({ error: "A valid email address is required." }, 400);
+		return jsonResponse({ error: "有効なメールアドレスが必要です。" }, 400);
 	}
 
 	// Per-email cooldown. We respond `sent: true` inside the cooldown

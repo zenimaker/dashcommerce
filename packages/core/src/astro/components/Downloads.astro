@@ -21,12 +21,12 @@ interface Props {
 }
 
 const { grants, locale } = Astro.props;
-const dtFmt = (iso: string) => new Date(iso).toLocaleString(locale ?? "en-US");
+const dtFmt = (iso: string) => new Date(iso).toLocaleString(locale ?? "ja-JP");
 ---
 <section class="dc-downloads">
-  <h2>Your downloads</h2>
+  <h2>ダウンロード</h2>
   {grants.length === 0 ? (
-    <p>No digital items yet.</p>
+    <p>デジタル商品はまだありません。</p>
   ) : (
     <ul>
       {grants.map((g) => {
@@ -37,14 +37,14 @@ const dtFmt = (iso: string) => new Date(iso).toLocaleString(locale ?? "en-US");
           <li class={disabled ? 'dc-disabled' : ''}>
             <strong>{g.fileName}</strong>
             {disabled ? (
-              <span> · {exhausted ? `Downloaded ${g.usesCount}/${g.maxUses}` : 'Expired'}</span>
+              <span> · {exhausted ? `ダウンロード済み ${g.usesCount}/${g.maxUses}` : '期限切れ'}</span>
             ) : (
               <>
                 {' '}
                 <a href={g.downloadUrl} download>
-                  Download
+                  ダウンロード
                 </a>
-                <span class="dc-meta"> · {g.usesCount}/{g.maxUses} uses · expires {dtFmt(g.expiresAt)}</span>
+                <span class="dc-meta"> · {g.usesCount}/{g.maxUses}回 · {dtFmt(g.expiresAt)} まで</span>
               </>
             )}
           </li>

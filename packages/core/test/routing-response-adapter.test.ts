@@ -327,7 +327,7 @@ describe("shared routes through the adapter", () => {
 		});
 		expect(response.status).toBe(400);
 		const body = (await response.json()) as { error: string };
-		expect(body.error).toContain("Cart is empty");
+		expect(body.error).toContain("カートは空です");
 	});
 });
 

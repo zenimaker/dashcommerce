@@ -37,22 +37,22 @@ const canCheckout = missingKeys.length === 0;
 const canceled = Astro.url.searchParams.get("canceled") === "1";
 ---
 
-<Shop title="Checkout" description="Complete your order securely.">
+<Shop title="レジ" description="安全な手続きでご注文を完了します。">
 
   <!-- Page header -->
   <div class="co-hero">
     <div class="container">
-      <nav class="co-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
+      <nav class="co-breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
         <span>›</span>
-        <a href="/cart">Cart</a>
+        <a href="/cart">カート</a>
         <span>›</span>
-        <span aria-current="page">Checkout</span>
+        <span aria-current="page">レジ</span>
       </nav>
-      <h1 class="co-title">Checkout</h1>
+      <h1 class="co-title">レジ</h1>
       <p class="co-subtitle">
         <span class="co-secure-icon" aria-hidden="true">🔒</span>
-        Secure · Encrypted · Stripe-powered
+        安全 · 暗号化 · Stripe決済
       </p>
     </div>
   </div>
@@ -64,22 +64,22 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
 
       {!canCheckout && (
         <div class="co-misconfig" role="alert">
-          <strong>⚠ Stripe is not configured</strong>
+          <strong>⚠ Stripeが設定されていません</strong>
           <p>
-            The following settings are missing:
-            <code>{missingKeys.join(", ")}</code>.
+            次の設定が不足しています:
+            <code>{missingKeys.join(", ")}</code>
           </p>
           <p>
-            Open <a href="/_emdash/admin/plugins/dashcommerce/settings">DashCommerce settings</a> to add them.
-            If using <code>stripe listen</code>, paste the <code>whsec_…</code> secret into <code>stripeWebhookSecret</code>.
+            <a href="/_emdash/admin/plugins/dashcommerce/settings">DashCommerceの設定</a>を開いて追加してください。
+            <code>stripe listen</code> を使う場合は、<code>whsec_…</code> の秘密鍵を <code>stripeWebhookSecret</code> に貼り付けます。
           </p>
         </div>
       )}
 
       {canceled && canCheckout && (
         <div class="co-canceled" role="status">
-          <strong>Payment canceled.</strong>
-          <p>No charge was made. You can restart the checkout below.</p>
+          <strong>お支払いをキャンセルしました。</strong>
+          <p>請求は発生していません。下から手続きをやり直せます。</p>
         </div>
       )}
 
@@ -93,92 +93,92 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
       <section id="contact-form" class="co-step">
         <div class="co-step-header">
           <span class="co-step-num">1</span>
-          <h2 class="co-step-title">Your details</h2>
+          <h2 class="co-step-title">お客様情報</h2>
         </div>
-        <p class="co-step-hint">We'll deliver to this address and use it for billing unless you say otherwise below.</p>
+        <p class="co-step-hint">この住所にお届けし、下で別に指定しない限り請求先にも使います。</p>
 
         <form id="contact" class="co-form">
           <label class="co-label">
-            <span>Email</span>
-            <input required type="email" id="email" autocomplete="email" placeholder="you@example.com" />
+            <span>メールアドレス</span>
+            <input required type="email" id="email" autocomplete="email" placeholder="example@example.com" />
           </label>
 
           <fieldset class="co-fieldset">
-            <legend class="co-legend">Shipping address</legend>
+            <legend class="co-legend">お届け先</legend>
 
             <div class="co-row-2">
               <label class="co-label">
-                <span>First name</span>
+                <span>名</span>
                 <input required id="firstName" autocomplete="shipping given-name" />
               </label>
               <label class="co-label">
-                <span>Last name</span>
+                <span>姓</span>
                 <input required id="lastName" autocomplete="shipping family-name" />
               </label>
             </div>
             <label class="co-label">
-              <span>Address line 1</span>
-              <input required id="line1" autocomplete="shipping address-line1" placeholder="123 Main St" />
+              <span>住所1</span>
+              <input required id="line1" autocomplete="shipping address-line1" placeholder="渋谷区神宮前1-2-3" />
             </label>
             <div class="co-row-3">
               <label class="co-label">
-                <span>City</span>
+                <span>市区町村</span>
                 <input required id="city" autocomplete="shipping address-level2" />
               </label>
               <label class="co-label">
-                <span>State / Region</span>
-                <input required id="region" placeholder="CA" autocomplete="shipping address-level1" />
+                <span>都道府県</span>
+                <input required id="region" placeholder="東京都" autocomplete="shipping address-level1" />
               </label>
               <label class="co-label">
-                <span>Postal code</span>
+                <span>郵便番号</span>
                 <input required id="postalCode" autocomplete="shipping postal-code" />
               </label>
             </div>
             <label class="co-label">
-              <span>Country <small>(ISO-2 code)</small></span>
-              <input required id="country" value="US" maxlength="2" autocomplete="shipping country" />
+              <span>国 <small>（ISO-2コード）</small></span>
+              <input required id="country" value="JP" maxlength="2" autocomplete="shipping country" />
             </label>
           </fieldset>
 
           <label class="co-toggle">
             <input type="checkbox" id="sameAsShipping" checked />
-            <span>My billing address is the same as shipping</span>
+            <span>請求先はお届け先と同じ</span>
           </label>
 
           <fieldset class="co-fieldset" id="billing-fieldset" hidden>
-            <legend class="co-legend">Billing address</legend>
+            <legend class="co-legend">請求先</legend>
 
             <div class="co-row-2">
               <label class="co-label">
-                <span>First name</span>
+                <span>名</span>
                 <input id="bFirstName" autocomplete="billing given-name" />
               </label>
               <label class="co-label">
-                <span>Last name</span>
+                <span>姓</span>
                 <input id="bLastName" autocomplete="billing family-name" />
               </label>
             </div>
             <label class="co-label">
-              <span>Address line 1</span>
-              <input id="bLine1" autocomplete="billing address-line1" placeholder="123 Main St" />
+              <span>住所1</span>
+              <input id="bLine1" autocomplete="billing address-line1" placeholder="渋谷区神宮前1-2-3" />
             </label>
             <div class="co-row-3">
               <label class="co-label">
-                <span>City</span>
+                <span>市区町村</span>
                 <input id="bCity" autocomplete="billing address-level2" />
               </label>
               <label class="co-label">
-                <span>State / Region</span>
-                <input id="bRegion" placeholder="CA" autocomplete="billing address-level1" />
+                <span>都道府県</span>
+                <input id="bRegion" placeholder="東京都" autocomplete="billing address-level1" />
               </label>
               <label class="co-label">
-                <span>Postal code</span>
+                <span>郵便番号</span>
                 <input id="bPostalCode" autocomplete="billing postal-code" />
               </label>
             </div>
             <label class="co-label">
-              <span>Country <small>(ISO-2 code)</small></span>
-              <input id="bCountry" value="US" maxlength="2" autocomplete="billing country" />
+              <span>国 <small>（ISO-2コード）</small></span>
+              <input id="bCountry" value="JP" maxlength="2" autocomplete="billing country" />
             </label>
           </fieldset>
 
@@ -190,7 +190,7 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
             class="btn-primary co-submit"
             disabled={!canCheckout}
           >
-            {canCheckout ? "Continue to payment →" : "Stripe not configured"}
+            {canCheckout ? "お支払いへ進む" : "Stripeが未設定です"}
           </button>
         </form>
       </section>
@@ -199,7 +199,7 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
       <section id="payment-form" class="co-step" style="display: none;">
         <div class="co-step-header">
           <span class="co-step-num">2</span>
-          <h2 class="co-step-title">Payment</h2>
+          <h2 class="co-step-title">お支払い</h2>
         </div>
         {canCheckout && publishableKey ? (
           <CheckoutForm
@@ -461,7 +461,7 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
       e.preventDefault();
       setError(null);
       submitBtn.disabled = true;
-      submitBtn.textContent = "Saving…";
+      submitBtn.textContent = "保存しています…";
 
       const v = (id: string) => {
         const el = document.getElementById(id) as HTMLInputElement | null;
@@ -507,9 +507,9 @@ const canceled = Astro.url.searchParams.get("canceled") === "1";
         } catch { /* quota / private-mode → non-fatal */ }
         window.dispatchEvent(new CustomEvent("dashcommerce:cart-updated"));
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Could not save details.");
+        setError(err instanceof Error ? err.message : "情報を保存できませんでした。");
         submitBtn.disabled = false;
-        submitBtn.textContent = "Continue to payment →";
+        submitBtn.textContent = "お支払いへ進む";
         return;
       }
 

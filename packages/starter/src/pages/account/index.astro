@@ -3,83 +3,73 @@ import Shop from "../../layouts/Shop.astro";
 import { SANDBOXED } from "../../lib/edition";
 
 // Core-only feature: not available in the sandboxed edition.
-if (SANDBOXED) return new Response("Not found", { status: 404 });
+if (SANDBOXED) return new Response("ページが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 ---
-<Shop title="Account">
+<Shop title="アカウント" description="注文の確認と、請求・定期購入の管理をメールで行います。">
 	<div class="container-narrow acc-wrap">
-		<h1>Your account</h1>
+		<h1>アカウント</h1>
 		<p class="lead">
-			We use <strong>email-gated accounts</strong>. There's nothing to sign
-			up for — the email you enter at checkout <em>is</em> your account.
+			アカウントは<strong>メールアドレスで紐づきます</strong>。会員登録は不要で、レジで入力したメールアドレスが、そのままアカウントになります。
 		</p>
 
 		<section class="explainer">
-			<h2>How it works</h2>
+			<h2>仕組み</h2>
 			<ul>
 				<li>
-					<strong>Receipts &amp; magic links.</strong> Every order, refund, and
-					subscription self-service link is emailed to you. No passwords, no
-					shared devices to worry about.
+					<strong>領収書とワンタイムリンク。</strong> 注文、返金、定期購入の管理リンクはメールで届きます。パスワードはなく、共有端末を気にする必要もありません。
 				</li>
 				<li>
-					<strong>Abandoned-cart reminders.</strong> If you enter your email on
-					the checkout page and don't finish, we'll email you a one-click link
-					back to your cart.
+					<strong>カートのリマインド。</strong> レジでメールアドレスを入力したまま購入を完了しなかった場合、カートに戻るリンクをメールします。
 				</li>
 				<li>
-					<strong>Repeat shopping.</strong> On this device, your details are
-					remembered locally so you don't have to retype them. Nothing about
-					your address is stored on our servers until you place an order.
+					<strong>次の買い物。</strong> この端末では入力内容を端末内に記憶するので、毎回打ち直す必要がありません。住所は注文が確定するまでサーバーに保存しません。
 				</li>
 			</ul>
 		</section>
 
 		<section class="lookup">
-			<h2>Find a past order</h2>
+			<h2>過去の注文を探す</h2>
 			<p>
-				Lost your receipt? Enter the order ID from your confirmation email and
-				we'll pull it up.
+				領収書が見つからないときは、確認メールに記載の注文IDから注文を表示できます。
 			</p>
 			<a class="acc-cta acc-cta--primary" href="/orders/lookup">
-				Look up an order <span aria-hidden="true">→</span>
+				注文を検索 <span aria-hidden="true">→</span>
 			</a>
 		</section>
 
 		<section class="lookup">
-			<h2>Manage billing &amp; subscriptions</h2>
+			<h2>請求と定期購入の管理</h2>
 			<p>
-				Update your card, download invoices, or manage any active
-				subscriptions in Stripe's secure billing portal. Enter your email and
-				we'll send you a one-time link.
+				カードの更新、請求書のダウンロード、定期購入の管理は、Stripeの安全な請求ポータルで行います。メールアドレスを入力すると、一度きり有効なリンクをお送りします。
 			</p>
 			<form id="portal-form" class="portal-form" novalidate>
 				<label class="portal-label">
-					<span>Email</span>
+					<span>メールアドレス</span>
 					<input
 						required
 						type="email"
 						name="email"
 						id="portal-email"
 						autocomplete="email"
-						placeholder="you@example.com"
+						placeholder="example@example.com"
 					/>
 				</label>
 				<button type="submit" class="acc-cta acc-cta--primary" id="portal-submit">
-					Email me a portal link <span aria-hidden="true">→</span>
+					ポータルのリンクをメールする <span aria-hidden="true">→</span>
 				</button>
 				<p class="portal-status" id="portal-status" role="status"></p>
 			</form>
 		</section>
 
-		<nav class="acc-cards" aria-label="Shortcuts">
+		<nav class="acc-cards" aria-label="ショートカット">
 			<a class="acc-card" href="/shop">
-				<h3>Keep shopping</h3>
-				<p>Browse the full catalog.</p>
+				<h3>買い物を続ける</h3>
+				<p>商品一覧を見る。</p>
 				<span class="acc-card-arrow" aria-hidden="true">→</span>
 			</a>
 			<a class="acc-card" href="/cart">
-				<h3>Your cart</h3>
-				<p>Pick up where you left off.</p>
+				<h3>カート</h3>
+				<p>途中から続ける。</p>
 				<span class="acc-card-arrow" aria-hidden="true">→</span>
 			</a>
 		</nav>
@@ -256,10 +246,10 @@ if (SANDBOXED) return new Response("Not found", { status: 404 });
 		ev.preventDefault();
 		const email = (input?.value ?? "").trim();
 		if (!email) {
-			setStatus("Enter the email you used at checkout.", "error");
+			setStatus("レジで使ったメールアドレスを入力してください。", "error");
 			return;
 		}
-		if (submit) { submit.disabled = true; submit.textContent = "Sending…"; }
+		if (submit) { submit.disabled = true; submit.textContent = "送信しています…"; }
 		setStatus("");
 		try {
 			const res = await fetch(`${API}/customer/portal-link`, {
@@ -271,22 +261,22 @@ if (SANDBOXED) return new Response("Not found", { status: 404 });
 			const body = await res.json().catch(() => ({}));
 			if (!res.ok) {
 				setStatus(
-					(body as { error?: string }).error ?? `Something went wrong (${res.status}).`,
+					(body as { error?: string }).error ?? `問題が発生しました（${res.status}）。`,
 					"error",
 				);
 				return;
 			}
 			setStatus(
-				"If we have a billing account on file for that email, a portal link is on the way. Check your inbox.",
+				"そのメールアドレスの請求アカウントがある場合、ポータルのリンクを送信しました。受信箱をご確認ください。",
 				"success",
 			);
 			if (input) input.value = "";
 		} catch {
-			setStatus("Network error. Please try again.", "error");
+			setStatus("通信エラーです。もう一度お試しください。", "error");
 		} finally {
 			if (submit) {
 				submit.disabled = false;
-				submit.innerHTML = 'Email me a portal link <span aria-hidden="true">→</span>';
+				submit.innerHTML = 'ポータルのリンクをメールする <span aria-hidden="true">→</span>';
 			}
 		}
 	});

@@ -11,13 +11,13 @@ import { SANDBOXED } from "../../lib/edition";
 
 export const prerender = false;
 
-if (!SANDBOXED) return new Response("Not found", { status: 404 });
+if (!SANDBOXED) return new Response("ページが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 ---
 
-<Shop title="Order confirmation" description="Your order status.">
+<Shop title="注文の確認" description="ご注文の状況です。">
 	<div class="container-narrow success-wrap">
 		<CheckoutSuccess />
-		<p><a href="/shop">Back to shop</a></p>
+		<p><a href="/shop">ショップに戻る</a></p>
 	</div>
 </Shop>
 

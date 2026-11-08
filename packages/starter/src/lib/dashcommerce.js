@@ -96,13 +96,13 @@ export function createClient(options = {}) {
 		try {
 			json = await res.json();
 		} catch {
-			throw new DashCommerceError("BAD_RESPONSE", `Unexpected response (${res.status})`);
+			throw new DashCommerceError("BAD_RESPONSE", `想定外の応答です（${res.status}）`);
 		}
 		if (!json || json.success === false || !json.data) {
 			const err = json?.error ?? {};
 			throw new DashCommerceError(
 				err.code ?? "REQUEST_FAILED",
-				err.message ?? `Request failed (${res.status})`,
+				err.message ?? `リクエストに失敗しました（${res.status}）`,
 			);
 		}
 		const data = json.data;
@@ -112,7 +112,7 @@ export function createClient(options = {}) {
 			if (details.cart) emit(details.cart);
 			throw new DashCommerceError(
 				error.code ?? "ERROR",
-				error.message ?? "Request failed",
+				error.message ?? "リクエストに失敗しました",
 				details,
 			);
 		}
@@ -207,7 +207,7 @@ export function orderFromQuery(search = typeof location !== "undefined" ? locati
 }
 
 /** Format `{ currency, amount }` (minor units) for display. */
-export function formatMoney(value, locale) {
+export function formatMoney(value, locale = "ja-JP") {
 	const fmt = new Intl.NumberFormat(locale, { style: "currency", currency: value.currency });
 	const digits = fmt.resolvedOptions().maximumFractionDigits ?? 2;
 	return fmt.format(value.amount / 10 ** digits);

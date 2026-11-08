@@ -15,7 +15,7 @@ interface Props {
 	quantity?: number;
 	class?: string;
 }
-const { productId, label = "Add to cart", quantity = 1, class: className } = Astro.props;
+const { productId, label = "カートに追加", quantity = 1, class: className } = Astro.props;
 ---
 
 <div class:list={["dc-add-to-cart", className]}>
@@ -34,9 +34,9 @@ const { productId, label = "Add to cart", quantity = 1, class: className } = Ast
 		button.disabled = true;
 		try {
 			await shop.addItem(button.dataset.dcAdd ?? "", Number(button.dataset.dcQuantity ?? 1));
-			if (message) message.textContent = "Added to cart";
+			if (message) message.textContent = "カートに追加しました。";
 		} catch (err) {
-			if (message) message.textContent = err instanceof Error ? err.message : "Could not add to cart";
+			if (message) message.textContent = err instanceof Error ? err.message : "カートに追加できませんでした。";
 		} finally {
 			button.disabled = false;
 		}

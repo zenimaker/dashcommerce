@@ -19,12 +19,12 @@ import {
 	getTerm,
 } from "emdash";
 import Shop from "../../layouts/Shop.astro";
-import { currencyMinorDigits } from "../../lib/money";
+import { formatMoney } from "../../lib/money";
 
 export const prerender = false;
 
 const { slug } = Astro.params;
-if (!slug) return new Response("Tag not found", { status: 404 });
+if (!slug) return new Response("タグが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 
 const term = await getTerm("product_tag", slug);
 if (!term) return Astro.redirect("/shop", 302);
@@ -33,12 +33,9 @@ const products = await getEntriesByTerm("products", "product_tag", slug);
 
 type PriceMap = Record<string, { amount: number }>;
 const fmt = (priceMap?: PriceMap) => {
-	const p = priceMap?.USD;
-	if (!p) return null;
-	return new Intl.NumberFormat("en-US", {
-		style: "currency",
-		currency: "USD",
-	}).format(p.amount / 10 ** currencyMinorDigits("USD"));
+	const currency = priceMap?.USD ? "USD" : Object.keys(priceMap ?? {})[0];
+	const price = currency ? priceMap?.[currency] : undefined;
+	return currency && price ? formatMoney(price.amount, currency) : null;
 };
 
 const typeGrad: Record<string, string> = {
@@ -82,17 +79,17 @@ function pickImage(d: unknown): ProductImage | null {
 
 <Shop
 	title={term.label}
-	description={term.description ?? `Products tagged ${term.label}.`}
+	description={term.description ?? `「${term.label}」のタグが付いた商品です。`}
 >
 	<!-- Tag hero (deliberately simpler than the category hero) -->
 	<div class="tag-hero">
 		<div class="container tag-hero-inner">
-			<nav class="tag-breadcrumb" aria-label="Breadcrumb">
-				<a href="/">Home</a>
+			<nav class="tag-breadcrumb" aria-label="パンくず">
+				<a href="/">ホーム</a>
 				<span>›</span>
-				<a href="/shop">Shop</a>
+				<a href="/shop">ショップ</a>
 				<span>›</span>
-				<span class="tag-breadcrumb-label">Tags</span>
+				<span class="tag-breadcrumb-label">タグ</span>
 				<span>›</span>
 				<span aria-current="page">{term.label}</span>
 			</nav>
@@ -105,8 +102,7 @@ function pickImage(d: unknown): ProductImage | null {
 
 			<div class="tag-meta">
 				<span class="tag-count">
-					{products.length}{" "}
-					{products.length === 1 ? "product" : "products"}
+					{products.length}点
 				</span>
 			</div>
 		</div>
@@ -116,7 +112,7 @@ function pickImage(d: unknown): ProductImage | null {
 	{otherTags.length > 0 && (
 		<div class="tag-nav-strip">
 			<div class="container tag-nav-inner">
-				<span class="tag-nav-label">Also tagged</span>
+				<span class="tag-nav-label">ほかのタグ</span>
 				{otherTags.slice(0, 12).map((t) => (
 					<a href={`/tag/${t.slug}`} class="tag-nav-link">
 						<span class="tag-nav-hash">#</span>
@@ -125,7 +121,7 @@ function pickImage(d: unknown): ProductImage | null {
 					</a>
 				))}
 				<a href="/shop" class="tag-nav-link tag-nav-all">
-					All products
+					すべての商品
 				</a>
 			</div>
 		</div>
@@ -135,10 +131,10 @@ function pickImage(d: unknown): ProductImage | null {
 		{products.length === 0 ? (
 			<div class="tag-empty">
 				<div class="tag-empty-icon" aria-hidden="true">#</div>
-				<h2>Nothing here yet</h2>
+				<h2>まだ商品がありません</h2>
 				<p>
-					No products are tagged <strong>{term.label}</strong> right now.{" "}
-					<a href="/shop">Browse all products →</a>
+					「<strong>{term.label}</strong>」のタグが付いた商品は、まだありません。{" "}
+					<a href="/shop">すべての商品を見る</a>
 				</p>
 			</div>
 		) : (
@@ -169,9 +165,9 @@ function pickImage(d: unknown): ProductImage | null {
 											decoding="async"
 										/>
 									)}
-									{isOut  && <span class="tag-badge tag-badge-out">Sold out</span>}
-									{isFeat && <span class="tag-badge tag-badge-feat">Featured</span>}
-									<div class="tag-card-view">View →</div>
+									{isOut  && <span class="tag-badge tag-badge-out">売り切れ</span>}
+									{isFeat && <span class="tag-badge tag-badge-feat">おすすめ</span>}
+									<div class="tag-card-view">見る</div>
 								</div>
 								<div class="tag-card-body">
 									<h2 class="tag-card-title">{String(d.title ?? "")}</h2>

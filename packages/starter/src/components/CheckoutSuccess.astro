@@ -12,7 +12,7 @@
 ---
 
 <section class="dc-order" data-dc-order>
-	<h1 data-dc-order-title>Confirming your payment...</h1>
+	<h1 data-dc-order-title>お支払いを確認しています…</h1>
 	<ul data-dc-order-lines></ul>
 	<p data-dc-order-total></p>
 	<p class="dc-message" data-dc-message role="status" aria-live="polite"></p>
@@ -30,22 +30,28 @@
 
 	const ref = orderFromQuery();
 	if (!ref) {
-		set("[data-dc-order-title]", "Order not found");
+		set("[data-dc-order-title]", "注文が見つかりません");
 	} else {
 		shop
 			.waitForPayment(ref.id, ref.orderKey)
 			.then((order) => {
 				const paid = order.paymentStatus === "paid";
+				const statusLabel: Record<string, string> = {
+					paid: "支払済",
+					pending: "確認中",
+					failed: "失敗",
+					refunded: "返金済",
+				};
 				set(
 					"[data-dc-order-title]",
-					paid ? `Thank you. Order ${order.orderNumber} is confirmed.` : `Order ${order.orderNumber}`,
+					paid ? `ありがとうございます。注文 ${order.orderNumber} を受け付けました。` : `注文 ${order.orderNumber}`,
 				);
 				if (!paid) {
 					set(
 						"[data-dc-message]",
 						order.paymentStatus === "pending"
-							? "We have not received the payment confirmation yet. Refresh this page in a minute."
-							: `Payment status: ${order.paymentStatus}`,
+							? "まだお支払いの確認が取れていません。しばらくしてから、このページを再読み込みしてください。"
+							: `お支払い状況: ${statusLabel[order.paymentStatus] ?? order.paymentStatus}`,
 					);
 				}
 				const lines = root?.querySelector("[data-dc-order-lines]");
@@ -54,8 +60,8 @@
 					li.textContent = `${item.quantity} x ${item.title}: ${formatMoney(item.lineTotal)}`;
 					lines?.append(li);
 				}
-				set("[data-dc-order-total]", `Total: ${formatMoney(order.total)}`);
+				set("[data-dc-order-total]", `合計: ${formatMoney(order.total)}`);
 			})
-			.catch((err) => set("[data-dc-order-title]", err instanceof Error ? err.message : "Order not found"));
+			.catch((err) => set("[data-dc-order-title]", err instanceof Error ? err.message : "注文が見つかりません"));
 	}
 </script>

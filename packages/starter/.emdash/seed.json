@@ -7,8 +7,8 @@
 		"author": "DashCommerce"
 	},
 	"settings": {
-		"title": "My Shop",
-		"tagline": "A Stripe-powered storefront, editable entirely from the admin.",
+		"title": "ダッシュコマース",
+		"tagline": "管理画面から編集できる、Stripe決済対応のストアフロントです。",
 		"postsPerPage": 9,
 		"social": {
 			"instagram": "https://instagram.com/",
@@ -1043,23 +1043,23 @@
 			"terms": [
 				{
 					"slug": "physical-goods",
-					"label": "Physical Goods",
-					"description": "Tangible products that ship — apparel, ceramics, accessories, and everyday objects."
+					"label": "実物商品",
+					"description": "お届けする実物の商品。衣類、器、小物、日々の道具。"
 				},
 				{
 					"slug": "digital-downloads",
-					"label": "Digital Downloads",
-					"description": "Instantly-delivered files — templates, presets, fonts, e-books, or any downloadable asset."
+					"label": "デジタルダウンロード",
+					"description": "購入後すぐに受け取れるファイル。テンプレート、プリセット、フォント、電子書籍など。"
 				},
 				{
 					"slug": "subscriptions",
-					"label": "Subscriptions",
-					"description": "Recurring products — monthly boxes, memberships, and any product billed on a schedule."
+					"label": "定期購入",
+					"description": "毎月のボックスや会員プランなど、周期的に請求される商品。"
 				},
 				{
 					"slug": "bundles",
-					"label": "Bundles & Sets",
-					"description": "Grouped products sold together as a set, typically at a discount."
+					"label": "セット・まとめ買い",
+					"description": "複数の商品をまとめて、お得に販売するセット。"
 				}
 			]
 		},
@@ -1074,33 +1074,33 @@
 			"terms": [
 				{
 					"slug": "new-arrival",
-					"label": "New Arrival",
-					"description": "Fresh additions to the shop."
+					"label": "新着",
+					"description": "ショップに新しく入った商品。"
 				},
 				{
 					"slug": "bestseller",
-					"label": "Bestseller",
-					"description": "Our most-loved products of the season."
+					"label": "人気",
+					"description": "今シーズン、特に選ばれている商品。"
 				},
 				{
 					"slug": "sale",
-					"label": "On Sale",
-					"description": "Discounted products — while stocks last."
+					"label": "セール",
+					"description": "在庫があるうちの、割引商品。"
 				},
 				{
 					"slug": "limited-edition",
-					"label": "Limited Edition",
-					"description": "Small-run drops. Once they're gone, they're gone."
+					"label": "限定",
+					"description": "少量だけの商品。なくなり次第、終了です。"
 				},
 				{
 					"slug": "eco-friendly",
-					"label": "Eco-Friendly",
-					"description": "Made from recycled, renewable, or low-impact materials."
+					"label": "環境に配慮",
+					"description": "再生素材や、環境負荷の低い素材でつくった商品。"
 				},
 				{
 					"slug": "gift",
-					"label": "Great as a Gift",
-					"description": "Thoughtful picks that make good presents."
+					"label": "ギフト向き",
+					"description": "贈り物にしやすい、丁寧な選択。"
 				}
 			]
 		},
@@ -1115,18 +1115,18 @@
 			"terms": [
 				{
 					"slug": "behind-the-scenes",
-					"label": "Behind the Scenes",
-					"description": "How products are made, sourced, or designed. Craft, process, and provenance stories."
+					"label": "舞台裏",
+					"description": "つくり方、仕入れ、デザイン。手仕事と由来の話。"
 				},
 				{
 					"slug": "product-stories",
-					"label": "Product Stories",
-					"description": "Deep dives on individual products — why they're in the edit, what makes them worth owning."
+					"label": "商品のものがたり",
+					"description": "なぜこの品を置いているのか。手元に置く理由を掘り下げます。"
 				},
 				{
 					"slug": "buying-guides",
-					"label": "Buying Guides",
-					"description": "Practical, gift-style roundups that help readers pick the right product for the job."
+					"label": "選び方ガイド",
+					"description": "目的に合う商品を選ぶための、実用的なまとめ。"
 				}
 			]
 		}
@@ -1138,54 +1138,54 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Shop",
+					"label": "ショップ",
 					"url": "/shop",
 					"children": [
 						{
 							"type": "custom",
-							"label": "Physical Goods",
+							"label": "実物商品",
 							"url": "/category/physical-goods",
-							"titleAttr": "Everyday objects, made well",
+							"titleAttr": "暮らしに寄り添う、丁寧なもの",
 							"cssClasses": "grad-amber"
 						},
 						{
 							"type": "custom",
-							"label": "Digital Downloads",
+							"label": "デジタルダウンロード",
 							"url": "/category/digital-downloads",
-							"titleAttr": "Instant access, no shipping",
+							"titleAttr": "すぐに届く。配送はありません",
 							"cssClasses": "grad-blue"
 						},
 						{
 							"type": "custom",
-							"label": "Subscriptions",
+							"label": "定期購入",
 							"url": "/category/subscriptions",
-							"titleAttr": "Curated monthly deliveries",
+							"titleAttr": "毎月届く、選び抜いた品",
 							"cssClasses": "grad-green"
 						},
 						{
 							"type": "custom",
-							"label": "Bundles",
+							"label": "セット",
 							"url": "/category/bundles",
-							"titleAttr": "More for less, always",
+							"titleAttr": "まとめ買いで、お得に",
 							"cssClasses": "grad-purple"
 						}
 					]
 				},
 				{
 					"type": "custom",
-					"label": "New",
+					"label": "新着",
 					"url": "/shop?sort=newest",
 					"cssClasses": "is-accent"
 				},
 				{
 					"type": "custom",
-					"label": "Journal",
+					"label": "ジャーナル",
 					"url": "/blog",
-					"titleAttr": "Product stories, buying guides and behind-the-scenes"
+					"titleAttr": "商品の背景、選び方、舞台裏"
 				},
 				{
 					"type": "custom",
-					"label": "About",
+					"label": "私たちについて",
 					"url": "/about"
 				}
 			]
@@ -1196,27 +1196,27 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "All Products",
+					"label": "すべての商品",
 					"url": "/shop"
 				},
 				{
 					"type": "custom",
-					"label": "Physical Goods",
+					"label": "実物商品",
 					"url": "/category/physical-goods"
 				},
 				{
 					"type": "custom",
-					"label": "Digital Downloads",
+					"label": "デジタルダウンロード",
 					"url": "/category/digital-downloads"
 				},
 				{
 					"type": "custom",
-					"label": "Subscriptions",
+					"label": "定期購入",
 					"url": "/category/subscriptions"
 				},
 				{
 					"type": "custom",
-					"label": "Bundles & Sets",
+					"label": "セット・まとめ買い",
 					"url": "/category/bundles"
 				}
 			]
@@ -1227,22 +1227,22 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Your Account",
+					"label": "アカウント",
 					"url": "/account"
 				},
 				{
 					"type": "custom",
-					"label": "Order History",
+					"label": "注文履歴",
 					"url": "/account"
 				},
 				{
 					"type": "custom",
-					"label": "Downloads",
+					"label": "ダウンロード",
 					"url": "/account"
 				},
 				{
 					"type": "custom",
-					"label": "Subscriptions",
+					"label": "定期購入",
 					"url": "/subscriptions"
 				}
 			]
@@ -1253,22 +1253,22 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "FAQ",
+					"label": "よくある質問",
 					"url": "/shop"
 				},
 				{
 					"type": "custom",
-					"label": "Shipping Policy",
+					"label": "配送ポリシー",
 					"url": "/shop"
 				},
 				{
 					"type": "custom",
-					"label": "Returns",
+					"label": "返品",
 					"url": "/shop"
 				},
 				{
 					"type": "custom",
-					"label": "Contact",
+					"label": "お問い合わせ",
 					"url": "/shop"
 				}
 			]
@@ -1279,12 +1279,12 @@
 			"items": [
 				{
 					"type": "custom",
-					"label": "Privacy Policy",
+					"label": "プライバシーポリシー",
 					"url": "/shop"
 				},
 				{
 					"type": "custom",
-					"label": "Terms of Service",
+					"label": "利用規約",
 					"url": "/shop"
 				}
 			]
@@ -1297,7 +1297,7 @@
 				"slug": "enamel-mug",
 				"status": "published",
 				"data": {
-					"title": "Enamel Mug",
+					"title": "ホーローマグ",
 					"type": "simple",
 					"sku": "MUG-001",
 					"prices": {
@@ -1333,7 +1333,7 @@
 				"slug": "graphic-tee",
 				"status": "published",
 				"data": {
-					"title": "Logo Tee",
+					"title": "ロゴTシャツ",
 					"type": "variable",
 					"sku": "TEE-001",
 					"prices": {
@@ -1368,7 +1368,7 @@
 				"slug": "starter-bundle",
 				"status": "published",
 				"data": {
-					"title": "Starter Bundle",
+					"title": "スターターセット",
 					"type": "grouped",
 					"sku": "BUNDLE-001",
 					"prices": {
@@ -1408,7 +1408,7 @@
 				"slug": "partner-good",
 				"status": "published",
 				"data": {
-					"title": "Partner Good (external)",
+					"title": "パートナー商品（外部）",
 					"type": "external",
 					"sku": "EXT-001",
 					"prices": {
@@ -1428,7 +1428,7 @@
 					"is_downloadable": false,
 					"is_virtual": false,
 					"product_url": "https://example.com/product",
-					"button_text": "Buy on partner site"
+					"button_text": "パートナーサイトで購入"
 				},
 				"taxonomies": {
 					"product_category": [
@@ -1444,7 +1444,7 @@
 				"slug": "monthly-box",
 				"status": "published",
 				"data": {
-					"title": "Monthly Box",
+					"title": "マンスリーボックス",
 					"type": "subscription",
 					"sku": "SUB-001",
 					"prices": {
@@ -1484,7 +1484,7 @@
 				"slug": "design-templates",
 				"status": "published",
 				"data": {
-					"title": "Design Templates (digital)",
+					"title": "デザインテンプレート（デジタル）",
 					"type": "simple",
 					"sku": "DIG-001",
 					"prices": {
@@ -1522,10 +1522,10 @@
 				"slug": "slide-new-arrivals",
 				"status": "published",
 				"data": {
-					"eyebrow": "New arrivals",
-					"headline": "Discover\nThe Collection",
-					"subtitle": "Curated physical goods, digital downloads and monthly boxes — all in one place.",
-					"cta_label": "Shop now",
+					"eyebrow": "新着",
+					"headline": "見つけてください\nこの品ぞろえを",
+					"subtitle": "実物の商品、デジタル商品、毎月のボックス。すべてを、ひとつの場所に。",
+					"cta_label": "ショップを見る",
 					"cta_href": "/shop",
 					"bg_type": "gradient",
 					"bg_css": "radial-gradient(ellipse at 70% 50%, #1a1000 0%, #0b0b0b 70%)",
@@ -1538,10 +1538,10 @@
 				"slug": "slide-digital-goods",
 				"status": "published",
 				"data": {
-					"eyebrow": "Digital goods",
-					"headline": "Instant\nAccess, Always",
-					"subtitle": "Download premium design assets, templates, and tools the moment you purchase.",
-					"cta_label": "Browse digital",
+					"eyebrow": "デジタル商品",
+					"headline": "すぐに、\nいつでも手元に",
+					"subtitle": "デザイン素材、テンプレート、道具を、購入したその瞬間にダウンロードできます。",
+					"cta_label": "デジタル商品を見る",
 					"cta_href": "/category/digital-downloads",
 					"bg_type": "gradient",
 					"bg_css": "radial-gradient(ellipse at 30% 60%, #00102a 0%, #0b0b0b 70%)",
@@ -1554,10 +1554,10 @@
 				"slug": "slide-subscriptions",
 				"status": "published",
 				"data": {
-					"eyebrow": "Subscriptions",
-					"headline": "Curated Monthly,\nFor You",
-					"subtitle": "A thoughtfully assembled box of goods, delivered to your door every month.",
-					"cta_label": "Explore boxes",
+					"eyebrow": "定期購入",
+					"headline": "毎月届く、\nあなたのための一箱",
+					"subtitle": "丁寧に組んだ一箱を、毎月お届けします。",
+					"cta_label": "ボックスを見る",
 					"cta_href": "/category/subscriptions",
 					"bg_type": "gradient",
 					"bg_css": "radial-gradient(ellipse at 60% 40%, #001a0a 0%, #0b0b0b 70%)",
@@ -1572,8 +1572,8 @@
 				"slug": "the-craft-of-enamel",
 				"status": "published",
 				"data": {
-					"title": "The Craft of Enamel: Behind Our Signature Mugs",
-					"excerpt": "Every enamel mug in The Edit is dipped and fired by hand. Here's what goes into one.",
+					"title": "琺瑯の手仕事 — 看板マグの裏側",
+					"excerpt": "この店のホーローマグは、一つずつ浸して焼いています。その工程を紹介します。",
 					"cover_gradient": "linear-gradient(135deg, #2d1800 0%, #0b0b0b 100%)",
 					"author_name": "Maren Osei",
 					"published_date": "2026-03-12T09:00:00.000Z",
@@ -1589,7 +1589,7 @@
 									"_type": "span",
 									"_key": "s-1",
 									"marks": [],
-									"text": "Enamelware sits at a strange intersection of the industrial and the handmade. At a glance, our signature mug looks like a mass-produced kitchen staple. Up close — once you know what to look for — every piece is unmistakably the work of a small team in a single workshop."
+									"text": "琺瑯の器は、工業と手仕事のあいだにあります。看板のマグは、一見すると量産の台所用品です。近づいて見方がわかると、一つの工房の少人数がつくったものだとわかります。"
 								}
 							]
 						},
@@ -1603,7 +1603,7 @@
 									"_type": "span",
 									"_key": "s-3",
 									"marks": [],
-									"text": "From blank steel to finished piece"
+									"text": "鋼板から、仕上がりまで"
 								}
 							]
 						},
@@ -1617,7 +1617,7 @@
 									"_type": "span",
 									"_key": "s-5",
 									"marks": [],
-									"text": "Each mug begins life as a pressed steel blank. The blanks are pickled to remove any mill scale, then dipped twice in a liquid enamel slurry. Between dips, they're hung on a rack to dry for at least four hours — rush it, and you get hairline cracks that show up only after firing."
+									"text": "マグは、プレスした鋼板から始まります。工場の酸化膜を酸洗いで落とし、液状の釉薬に二度浸します。浸すあいだは、少なくとも四時間、棚にかけて乾かします。急ぐと、焼いたあとではじめて見える細かなひびが入ります。"
 								}
 							]
 						},
@@ -1633,7 +1633,7 @@
 									"_type": "span",
 									"_key": "s-7",
 									"marks": [],
-									"text": "Pressed steel blanks sourced from a Midlands fabricator"
+									"text": "ミッドランズの加工所から仕入れる、プレス鋼板"
 								}
 							]
 						},
@@ -1649,7 +1649,7 @@
 									"_type": "span",
 									"_key": "s-9",
 									"marks": [],
-									"text": "Two-coat dipping (base + topcoat) to resist chipping"
+									"text": "欠けにくくするための、下地と上塗りの二度漬け"
 								}
 							]
 						},
@@ -1665,7 +1665,7 @@
 									"_type": "span",
 									"_key": "s-b",
 									"marks": [],
-									"text": "Fired at 820°C for 180 seconds, then air-cooled"
+									"text": "820°Cで180秒焼成し、その後は自然冷却"
 								}
 							]
 						},
@@ -1681,7 +1681,7 @@
 									"_type": "span",
 									"_key": "s-d",
 									"marks": [],
-									"text": "Inspected for pinholes, glossed rims, and weight parity"
+									"text": "ピンホール、縁の光沢、重さのばらつきを検品"
 								}
 							]
 						},
@@ -1695,7 +1695,7 @@
 									"_type": "span",
 									"_key": "s-f",
 									"marks": [],
-									"text": "Why we fire at 820°C"
+									"text": "820°Cで焼く理由"
 								}
 							]
 						},
@@ -1709,7 +1709,7 @@
 									"_type": "span",
 									"_key": "s-h",
 									"marks": [],
-									"text": "Most factory enamelware is fired hotter and faster to move product. At 820°C the coat fuses a touch more gently — it takes longer per piece, but the resulting surface is harder and the colour sits a little deeper."
+									"text": "多くの工場では、数を出すために、より高温で短時間焼きます。820°Cでは釉薬が少し穏やかに溶けるので、一点に時間がかかります。そのぶん表面は硬く、色はわずかに深く座ります。"
 								}
 							]
 						},
@@ -1723,7 +1723,7 @@
 									"_type": "span",
 									"_key": "s-j",
 									"marks": [],
-									"text": "The difference isn't visible from across the room. It's visible on the lip of the mug, in your hand, every morning for ten years."
+									"text": "部屋の向こうからは、違いは見えません。見えるのはマグの縁と、十年間、毎朝手に取る感触です。"
 								}
 							]
 						},
@@ -1737,7 +1737,7 @@
 									"_type": "span",
 									"_key": "s-l",
 									"marks": [],
-									"text": "We've had customers send us photos of our mugs still going strong after a decade of daily use. That's the point of enamel — it should outlast the kitchen you bought it for."
+									"text": "毎日十年使っても現役だ、と写真を送ってくださる方がいます。琺瑯の意味はそこにあります。買ったときの台所より、長く残ること。"
 								}
 							]
 						}
@@ -1754,8 +1754,8 @@
 				"slug": "why-we-ship-monthly-boxes",
 				"status": "published",
 				"data": {
-					"title": "Why We Ship Monthly Boxes Instead of Bigger Catalogues",
-					"excerpt": "Three years in, subscription boxes are still our favourite product. Here's why constraint beats abundance.",
+					"title": "カタログを広げるより、毎月の一箱を届ける理由",
+					"excerpt": "三年たっても、定期便の箱がいちばん好きな商品です。多さより、絞ることのほうが強い理由です。",
 					"cover_gradient": "linear-gradient(135deg, #001a0a 0%, #0b0b0b 100%)",
 					"author_name": "Theo Park",
 					"published_date": "2026-03-04T09:00:00.000Z",
@@ -1771,7 +1771,7 @@
 									"_type": "span",
 									"_key": "s-n",
 									"marks": [],
-									"text": "When we launched the Monthly Box, the internal pitch was half-serious: 'make the smallest possible product with the largest possible meaning.' Three years and 14,000 boxes later, it's still our highest-NPS line."
+									"text": "マンスリーボックスを始めたときの社内の売り文句は、半分本気でした。「意味がいちばん大きく、かたちはいちばん小さい商品をつくる」。三年、一万四千箱を経ても、推奨度がいちばん高い商品です。"
 								}
 							]
 						},
@@ -1785,7 +1785,7 @@
 									"_type": "span",
 									"_key": "s-p",
 									"marks": [],
-									"text": "Constraint is the product"
+									"text": "絞ることが、商品そのもの"
 								}
 							]
 						},
@@ -1799,7 +1799,7 @@
 									"_type": "span",
 									"_key": "s-r",
 									"marks": [],
-									"text": "A monthly box forces us to pick four things we genuinely believe in. Not forty. Not four hundred. That's the feature — it filters out the noise on behalf of the customer, because we've done the filtering for them."
+									"text": "毎月の箱は、本当に信じるものを四つだけ選ばせます。四十でも、四百でもありません。それが機能です。こちらが先に選り分けるので、お客さまの代わりに雑音を落とします。"
 								}
 							]
 						},
@@ -1813,7 +1813,7 @@
 									"_type": "span",
 									"_key": "s-t",
 									"marks": [],
-									"text": "Our customers don't subscribe for the 12% discount. They subscribe because 'four good things a month' is a better editorial contract than 'an unlimited online shop.'"
+									"text": "お客さまが購読するのは、12%の割引のためではありません。「月に良いものが四つ」という編集の約束が、「無限のネットショップ」より良いからです。"
 								}
 							]
 						},
@@ -1827,7 +1827,7 @@
 									"_type": "span",
 									"_key": "s-v",
 									"marks": [],
-									"text": "How we plan a year ahead"
+									"text": "一年先まで、どう組むか"
 								}
 							]
 						},
@@ -1843,7 +1843,7 @@
 									"_type": "span",
 									"_key": "s-x",
 									"marks": [],
-									"text": "February each year, we lock the theme for the next twelve months."
+									"text": "毎年二月に、その先十二か月のテーマを決めます。"
 								}
 							]
 						},
@@ -1859,7 +1859,7 @@
 									"_type": "span",
 									"_key": "s-z",
 									"marks": [],
-									"text": "Each month gets a lead item (~50% of the box value) and three supporting items."
+									"text": "各月は、箱の価値のおよそ半分を占める主役一つと、それを支える三つです。"
 								}
 							]
 						},
@@ -1875,7 +1875,7 @@
 									"_type": "span",
 									"_key": "s-11",
 									"marks": [],
-									"text": "We try to ensure one digital good per quarter — it keeps the ratio balanced."
+									"text": "四半期に一つはデジタル商品を入れるようにしています。比率のバランスのためです。"
 								}
 							]
 						},
@@ -1891,7 +1891,7 @@
 									"_type": "span",
 									"_key": "s-13",
 									"marks": [],
-									"text": "Final composition signs off ten weeks before the ship date."
+									"text": "最終の中身は、発送の十週前に確定します。"
 								}
 							]
 						},
@@ -1905,7 +1905,7 @@
 									"_type": "span",
 									"_key": "s-15",
 									"marks": [],
-									"text": "The best subscription products feel like letters from a friend with better taste than you. Ours tries to read that way."
+									"text": "良い定期便は、自分より目の利く友人からの手紙のように感じます。うちの箱も、そう読めるようにしています。"
 								}
 							]
 						}
@@ -1922,8 +1922,8 @@
 				"slug": "in-defense-of-the-logo-tee",
 				"status": "published",
 				"data": {
-					"title": "In Defence of the Logo Tee",
-					"excerpt": "The plain T-shirt is having a moment again. We make the case for putting a small mark back on it.",
+					"title": "ロゴTシャツを、擁護する",
+					"excerpt": "無地のTシャツが、また注目されています。そこに小さな印を戻す理由を書きます。",
 					"cover_gradient": "linear-gradient(135deg, #1a0f00 0%, #0b0b0b 100%)",
 					"author_name": "Priya Nair",
 					"published_date": "2026-02-22T09:00:00.000Z",
@@ -1939,7 +1939,7 @@
 									"_type": "span",
 									"_key": "s-17",
 									"marks": [],
-									"text": "Fashion has spent the last decade convinced the future of the T-shirt is quiet. Heavyweight cotton. No branding. A small tonal label that you had to squint to read. We loved it too — for a while."
+									"text": "この十年、ファッションはTシャツの未来を静かなものだと考えていました。厚手の綿。ブランド表記なし。目を凝らさないと読めない、同系色の小さなタグ。私たちも、しばらくはそれが好きでした。"
 								}
 							]
 						},
@@ -1953,7 +1953,7 @@
 									"_type": "span",
 									"_key": "s-19",
 									"marks": [],
-									"text": "The case for a small mark"
+									"text": "小さな印を残す理由"
 								}
 							]
 						},
@@ -1967,7 +1967,7 @@
 									"_type": "span",
 									"_key": "s-1b",
 									"marks": [],
-									"text": "A logo, done sparingly, does two things a blank tee can't. It tells the wearer this piece is part of something — a shop, a scene, a point of view. And it lets other people recognise it without a caption."
+									"text": "控えめなロゴは、無地にはできないことを二つします。着ている人に、これは店や場、視点の一部だと伝えます。そして、説明書きなしで、ほかの人にもそれとわかります。"
 								}
 							]
 						},
@@ -1981,7 +1981,7 @@
 									"_type": "span",
 									"_key": "s-1d",
 									"marks": [],
-									"text": "How we approached ours"
+									"text": "私たちのつくり方"
 								}
 							]
 						},
@@ -1997,7 +1997,7 @@
 									"_type": "span",
 									"_key": "s-1f",
 									"marks": [],
-									"text": "2cm wide, centred at the chest — smaller than a coin."
+									"text": "幅2cm、胸の中央。硬貨より小さい。"
 								}
 							]
 						},
@@ -2013,7 +2013,7 @@
 									"_type": "span",
 									"_key": "s-1h",
 									"marks": [],
-									"text": "Tonal embroidery, not print: matte thread on matte fabric."
+									"text": "プリントではなく、同系色の刺繍。つやのない糸を、つやのない生地に。"
 								}
 							]
 						},
@@ -2029,7 +2029,7 @@
 									"_type": "span",
 									"_key": "s-1j",
 									"marks": [],
-									"text": "220gsm ringspun cotton, pre-washed. Same body as the blank."
+									"text": "220gのリングスパン綿を、先に洗っています。身頃は無地と同じです。"
 								}
 							]
 						},
@@ -2043,7 +2043,7 @@
 									"_type": "span",
 									"_key": "s-1l",
 									"marks": [],
-									"text": "The goal isn't to make the logo the point. The goal is to make the logo the reason the tee has a point."
+									"text": "ロゴを主役にすることではありません。そのTシャツに意味がある理由を、ロゴにすることです。"
 								}
 							]
 						}
@@ -2060,8 +2060,8 @@
 				"slug": "how-to-pick-a-subscription-box",
 				"status": "published",
 				"data": {
-					"title": "How to Pick the Right Subscription Box",
-					"excerpt": "Four questions we ask any customer who's on the fence between our Monthly, Quarterly, and Annual plans.",
+					"title": "定期便の箱を、どう選ぶか",
+					"excerpt": "月額、四半期、年額で迷っている方に、必ず聞く四つの質問です。",
 					"cover_gradient": "linear-gradient(135deg, #001433 0%, #0b0b0b 100%)",
 					"author_name": "Theo Park",
 					"published_date": "2026-02-14T09:00:00.000Z",
@@ -2077,7 +2077,7 @@
 									"_type": "span",
 									"_key": "s-1n",
 									"marks": [],
-									"text": "Subscription fatigue is real. Before you sign up for anything — ours or anyone else's — ask yourself these four things."
+									"text": "定期購入の疲れは、本当にあります。うちでも他社でも、申し込む前にこの四つを自分に聞いてください。"
 								}
 							]
 						},
@@ -2091,7 +2091,7 @@
 									"_type": "span",
 									"_key": "s-1p",
 									"marks": [],
-									"text": "1. How often do you actually need new things?"
+									"text": "1. 新しいものは、実際どのくらいの頻度で必要ですか？"
 								}
 							]
 						},
@@ -2105,7 +2105,7 @@
 									"_type": "span",
 									"_key": "s-1r",
 									"marks": [],
-									"text": "If the honest answer is 'rarely,' a monthly box will sit unopened and you'll resent it. Quarterly or annual is almost always the better pick."
+									"text": "正直に「めったにない」なら、毎月の箱は開かれないまま積もり、やがて鬱陶しくなります。四半期か年額が、ほぼ常に良い選択です。"
 								}
 							]
 						},
@@ -2119,7 +2119,7 @@
 									"_type": "span",
 									"_key": "s-1t",
 									"marks": [],
-									"text": "2. Do you trust the curator?"
+									"text": "2. 選ぶ人を、信頼できますか？"
 								}
 							]
 						},
@@ -2133,7 +2133,7 @@
 									"_type": "span",
 									"_key": "s-1v",
 									"marks": [],
-									"text": "Subscription boxes live or die on taste. Read one issue of the curator's newsletter or look at their Instagram. If their eye doesn't match yours, a discount won't fix it."
+									"text": "定期便は、目利きで決まります。ニュースレターを一通読むか、Instagramを見てください。目が合わなければ、割引では直りません。"
 								}
 							]
 						},
@@ -2147,7 +2147,7 @@
 									"_type": "span",
 									"_key": "s-1x",
 									"marks": [],
-									"text": "3. Can you pause?"
+									"text": "3. 一時停止できますか？"
 								}
 							]
 						},
@@ -2161,7 +2161,7 @@
 									"_type": "span",
 									"_key": "s-1z",
 									"marks": [],
-									"text": "Most good subscriptions let you skip or pause. Check this before you sign up — not after."
+									"text": "良い定期購入は、スキップや一時停止ができます。申し込む前に確認してください。あとからでは遅いです。"
 								}
 							]
 						},
@@ -2175,7 +2175,7 @@
 									"_type": "span",
 									"_key": "s-21",
 									"marks": [],
-									"text": "4. What's the exit?"
+									"text": "4. やめ方は、どこにありますか？"
 								}
 							]
 						},
@@ -2189,7 +2189,7 @@
 									"_type": "span",
 									"_key": "s-23",
 									"marks": [],
-									"text": "Look for a one-click cancel link inside the account page. If you can't find it in the T&Cs, that's your answer."
+									"text": "アカウントのページに、ワンクリックの解約があるかを見てください。利用規約に見つからなければ、それが答えです。"
 								}
 							]
 						}
@@ -2206,8 +2206,8 @@
 				"slug": "the-quiet-return-of-the-digital-download",
 				"status": "published",
 				"data": {
-					"title": "The Quiet Return of the Digital Download",
-					"excerpt": "Streaming was meant to be the end of ownership. Our digital download numbers have tripled. Here's what's going on.",
+					"title": "デジタルダウンロードが、静かに戻ってきた",
+					"excerpt": "ストリーミングは、所有の終わりのはずでした。デジタル商品の売上は三倍になりました。何が起きているのかを書きます。",
 					"cover_gradient": "linear-gradient(135deg, #00102a 0%, #0b0b0b 100%)",
 					"author_name": "Maren Osei",
 					"published_date": "2026-02-02T09:00:00.000Z",
@@ -2223,7 +2223,7 @@
 									"_type": "span",
 									"_key": "s-25",
 									"marks": [],
-									"text": "A quiet thing has been happening inside the catalogue. Over the last 18 months, our digital download sales have grown three times faster than the rest of the shop. They're a quarter of revenue now."
+									"text": "カタログの中で、静かな変化が起きています。この十八か月、デジタル商品の売上は店のほかの商品の三倍の速さで伸び、いまは売上の四分の一です。"
 								}
 							]
 						},
@@ -2237,7 +2237,7 @@
 									"_type": "span",
 									"_key": "s-27",
 									"marks": [],
-									"text": "People are buying again"
+									"text": "人は、また買っている"
 								}
 							]
 						},
@@ -2251,7 +2251,7 @@
 									"_type": "span",
 									"_key": "s-29",
 									"marks": [],
-									"text": "A decade of 'streaming-everything' built a generation of customers who realised they don't own any of the things they pay for. A paid-once, forever-downloadable file is, by contrast, radically calm."
+									"text": "「何でもストリーミング」の十年で、払っているものの何一つ自分のものではないと気づいた世代がいます。一度払えばずっとダウンロードできるファイルは、それに比べて驚くほど落ち着いています。"
 								}
 							]
 						},
@@ -2265,7 +2265,7 @@
 									"_type": "span",
 									"_key": "s-2b",
 									"marks": [],
-									"text": "What's selling"
+									"text": "何が売れているか"
 								}
 							]
 						},
@@ -2281,7 +2281,7 @@
 									"_type": "span",
 									"_key": "s-2d",
 									"marks": [],
-									"text": "Lightroom + Capture One presets — up 312% YoY."
+									"text": "LightroomとCapture Oneのプリセット — 前年比312%増。"
 								}
 							]
 						},
@@ -2297,7 +2297,7 @@
 									"_type": "span",
 									"_key": "s-2f",
 									"marks": [],
-									"text": "High-res icon packs — up 180%."
+									"text": "高解像度のアイコンパック — 180%増。"
 								}
 							]
 						},
@@ -2313,7 +2313,7 @@
 									"_type": "span",
 									"_key": "s-2h",
 									"marks": [],
-									"text": "Brush and texture sets — up 145%."
+									"text": "ブラシとテクスチャのセット — 145%増。"
 								}
 							]
 						},
@@ -2329,7 +2329,7 @@
 									"_type": "span",
 									"_key": "s-2j",
 									"marks": [],
-									"text": "Printable zines — surprisingly strong, up 98%."
+									"text": "印刷できるジン — 意外なほど強く、98%増。"
 								}
 							]
 						},
@@ -2343,7 +2343,7 @@
 									"_type": "span",
 									"_key": "s-2l",
 									"marks": [],
-									"text": "Digital goods are having a second wind because owning something — anything — feels novel again."
+									"text": "デジタル商品が息を吹き返しているのは、何かを所有すること自体が、また新鮮に感じられるからです。"
 								}
 							]
 						}
@@ -2360,8 +2360,8 @@
 				"slug": "the-gifting-guide-for-people-who-dont-do-gifts",
 				"status": "published",
 				"data": {
-					"title": "The Gifting Guide for People Who Don't Do Gifts",
-					"excerpt": "Seven quietly excellent things from The Edit, picked for the hardest person on your list: the one who says they don't want anything.",
+					"title": "贈り物を望まない人への、贈り物ガイド",
+					"excerpt": "「何もいらない」と言う、リストでいちばん難しい人のために、この店から静かに良いものを選びました。",
 					"cover_gradient": "linear-gradient(135deg, #1a001f 0%, #0b0b0b 100%)",
 					"author_name": "Priya Nair",
 					"published_date": "2026-01-20T09:00:00.000Z",
@@ -2377,7 +2377,7 @@
 									"_type": "span",
 									"_key": "s-2n",
 									"marks": [],
-									"text": "Every year someone on your list says they don't want anything. They're usually lying — they just don't want bad things. Here's what we'd pick."
+									"text": "毎年、誰かが「何もいらない」と言います。たいてい、それは嘘です。悪いものが欲しくないだけです。私たちなら、こう選びます。"
 								}
 							]
 						},
@@ -2391,7 +2391,7 @@
 									"_type": "span",
 									"_key": "s-2p",
 									"marks": [],
-									"text": "Under £30"
+									"text": "30ポンド未満"
 								}
 							]
 						},
@@ -2405,7 +2405,7 @@
 									"_type": "span",
 									"_key": "s-2r",
 									"marks": [],
-									"text": "The enamel mug. Nothing about it screams gift, which is exactly why it works as one. A mug that looks good on a shelf for ten years is a better present than a scented candle they'll burn in three."
+									"text": "ホーローマグ。贈り物らしいところが何もない。だから贈り物として成立します。十年棚に置いても様になるマグは、三日で燃え尽きるアロマキャンドルより良い贈り物です。"
 								}
 							]
 						},
@@ -2419,7 +2419,7 @@
 									"_type": "span",
 									"_key": "s-2t",
 									"marks": [],
-									"text": "Under £75"
+									"text": "75ポンド未満"
 								}
 							]
 						},
@@ -2433,7 +2433,7 @@
 									"_type": "span",
 									"_key": "s-2v",
 									"marks": [],
-									"text": "Pair the logo tee with the starter bundle — it lands as a thoughtful set rather than one obvious thing."
+									"text": "ロゴTシャツとスターターセットを組むと、わかりやすい単品ではなく、考えて選んだ一式になります。"
 								}
 							]
 						},
@@ -2447,7 +2447,7 @@
 									"_type": "span",
 									"_key": "s-2x",
 									"marks": [],
-									"text": "Under £150"
+									"text": "150ポンド未満"
 								}
 							]
 						},
@@ -2461,7 +2461,7 @@
 									"_type": "span",
 									"_key": "s-2z",
 									"marks": [],
-									"text": "The quarterly subscription. It spreads the gift across four seasons; you get to be the 'something nice showed up today' friend three more times."
+									"text": "四半期の定期便です。贈り物が四季に分かれ、その後も三度、「今日、良いものが届いた」と言える友人でいられます。"
 								}
 							]
 						},
@@ -2475,7 +2475,7 @@
 									"_type": "span",
 									"_key": "s-31",
 									"marks": [],
-									"text": "The secret to gifting people who don't do gifts is to give them permission to keep the thing around without feeling guilty about it. Quietly excellent objects — mugs, tees, well-designed software — pass that test."
+									"text": "贈り物を望まない人への秘訣は、罪悪感なく手元に置いてよい、と許すことです。静かに良いもの — マグ、Tシャツ、よく設計されたソフトウェア — は、その試験に通ります。"
 								}
 							]
 						}
@@ -2495,8 +2495,8 @@
 				"status": "published",
 				"data": {
 					"internal_name": "Homepage · Our promise",
-					"eyebrow": "Our promise",
-					"headline": "Quality goods,\nwithout compromise.",
+					"eyebrow": "私たちの約束",
+					"headline": "品質を、\n妥協しない。",
 					"body": [
 						{
 							"_type": "block",
@@ -2508,14 +2508,14 @@
 									"_type": "span",
 									"_key": "ps1",
 									"marks": [],
-									"text": "Every product in The Edit is selected for quality, function, and lasting value. We don't chase trends — we curate things worth keeping."
+									"text": "この店の商品は、品質と使いやすさ、長く使えることを基準に選んでいます。流行を追うのではなく、手元に残るものを置いています。"
 								}
 							]
 						}
 					],
-					"primary_cta_label": "Explore the full catalog",
+					"primary_cta_label": "すべての商品を見る",
 					"primary_cta_href": "/shop",
-					"secondary_cta_label": "Read our story",
+					"secondary_cta_label": "私たちの話を読む",
 					"secondary_cta_href": "/about",
 					"theme": "dark",
 					"alignment": "left",
@@ -2531,8 +2531,8 @@
 				"status": "published",
 				"data": {
 					"icon": "✦",
-					"title": "Free Shipping",
-					"description": "On all orders over $75",
+					"title": "送料無料",
+					"description": "75ドル以上のご注文で",
 					"sort_order": 10
 				}
 			},
@@ -2542,8 +2542,8 @@
 				"status": "published",
 				"data": {
 					"icon": "◈",
-					"title": "Secure Checkout",
-					"description": "Stripe-powered, PCI compliant",
+					"title": "安全な決済",
+					"description": "Stripeによる、PCI準拠の決済",
 					"sort_order": 20
 				}
 			},
@@ -2553,8 +2553,8 @@
 				"status": "published",
 				"data": {
 					"icon": "↺",
-					"title": "30-Day Returns",
-					"description": "No questions asked",
+					"title": "30日間の返品",
+					"description": "理由は問いません",
 					"sort_order": 30
 				}
 			},
@@ -2564,8 +2564,8 @@
 				"status": "published",
 				"data": {
 					"icon": "⬇",
-					"title": "Instant Downloads",
-					"description": "Digital goods, immediately",
+					"title": "すぐにダウンロード",
+					"description": "デジタル商品は、その場で",
 					"sort_order": 40
 				}
 			}
@@ -2576,8 +2576,8 @@
 				"slug": "physical-goods",
 				"status": "published",
 				"data": {
-					"label": "Physical Goods",
-					"description": "Everyday objects, made well",
+					"label": "実物商品",
+					"description": "暮らしに寄り添う、丁寧なもの",
 					"href": "/category/physical-goods",
 					"size": "large",
 					"bg_css": "linear-gradient(135deg, #2d1800 0%, #0b0b0b 100%)",
@@ -2589,8 +2589,8 @@
 				"slug": "digital-downloads",
 				"status": "published",
 				"data": {
-					"label": "Digital Downloads",
-					"description": "Instant access, no shipping",
+					"label": "デジタルダウンロード",
+					"description": "すぐに届く。配送はありません",
 					"href": "/category/digital-downloads",
 					"size": "small",
 					"bg_css": "linear-gradient(135deg, #001433 0%, #0b0b0b 100%)",
@@ -2602,8 +2602,8 @@
 				"slug": "monthly-boxes",
 				"status": "published",
 				"data": {
-					"label": "Monthly Boxes",
-					"description": "Curated and delivered",
+					"label": "毎月のボックス",
+					"description": "選んで、お届けする",
 					"href": "/category/subscriptions",
 					"size": "small",
 					"bg_css": "linear-gradient(135deg, #001a0a 0%, #0b0b0b 100%)",
@@ -2615,8 +2615,8 @@
 				"slug": "bundles",
 				"status": "published",
 				"data": {
-					"label": "Bundles",
-					"description": "More value, less friction",
+					"label": "セット",
+					"description": "お得に、手間なく",
 					"href": "/category/bundles",
 					"size": "large",
 					"bg_css": "linear-gradient(135deg, #1a001f 0%, #0b0b0b 100%)",
@@ -2630,7 +2630,7 @@
 				"slug": "free-shipping",
 				"status": "published",
 				"data": {
-					"message": "Free shipping on orders over $75",
+					"message": "75ドル以上のご注文で送料無料",
 					"location": "both",
 					"enabled": true,
 					"sort_order": 10
@@ -2641,7 +2641,7 @@
 				"slug": "thirty-day-returns",
 				"status": "published",
 				"data": {
-					"message": "30-day returns, no questions asked",
+					"message": "30日間、理由を問わず返品できます",
 					"location": "top_bar",
 					"enabled": true,
 					"sort_order": 20
@@ -2652,7 +2652,7 @@
 				"slug": "secure-checkout",
 				"status": "published",
 				"data": {
-					"message": "Secure checkout powered by Stripe",
+					"message": "お支払いはStripeの安全な決済です",
 					"location": "top_bar",
 					"enabled": true,
 					"sort_order": 30
@@ -2663,7 +2663,7 @@
 				"slug": "new-arrivals",
 				"status": "published",
 				"data": {
-					"message": "New arrivals every week",
+					"message": "毎週、新しい商品が入ります",
 					"location": "top_bar",
 					"enabled": true,
 					"sort_order": 40
@@ -2674,7 +2674,7 @@
 				"slug": "digital-instant",
 				"status": "published",
 				"data": {
-					"message": "Digital downloads — instant access",
+					"message": "デジタル商品は、すぐにダウンロード",
 					"location": "top_bar",
 					"enabled": true,
 					"sort_order": 50
@@ -2685,7 +2685,7 @@
 				"slug": "m-physical",
 				"status": "published",
 				"data": {
-					"message": "Physical Goods",
+					"message": "実物商品",
 					"location": "marquee",
 					"enabled": true,
 					"sort_order": 100
@@ -2696,7 +2696,7 @@
 				"slug": "m-digital",
 				"status": "published",
 				"data": {
-					"message": "Digital Downloads",
+					"message": "デジタルダウンロード",
 					"location": "marquee",
 					"enabled": true,
 					"sort_order": 110
@@ -2707,7 +2707,7 @@
 				"slug": "m-subs",
 				"status": "published",
 				"data": {
-					"message": "Subscriptions",
+					"message": "定期購入",
 					"location": "marquee",
 					"enabled": true,
 					"sort_order": 120
@@ -2718,7 +2718,7 @@
 				"slug": "m-bundles",
 				"status": "published",
 				"data": {
-					"message": "Curated Bundles",
+					"message": "厳選セット",
 					"location": "marquee",
 					"enabled": true,
 					"sort_order": 130
@@ -2729,7 +2729,7 @@
 				"slug": "m-stripe",
 				"status": "published",
 				"data": {
-					"message": "Stripe Secure",
+					"message": "Stripeの安全な決済",
 					"location": "marquee",
 					"enabled": true,
 					"sort_order": 140
@@ -2742,11 +2742,11 @@
 				"slug": "main",
 				"status": "published",
 				"data": {
-					"footer_newsletter_title": "Stay in the loop",
-					"footer_newsletter_body": "New arrivals, exclusive offers, and carefully chosen recommendations.",
-					"footer_newsletter_placeholder": "your@email.com",
-					"footer_newsletter_cta": "Subscribe",
-					"footer_copyright": "© {year} {title}. All rights reserved.",
+					"footer_newsletter_title": "最新情報を受け取る",
+					"footer_newsletter_body": "新着商品、限定オファー、厳選したおすすめをお届けします。",
+					"footer_newsletter_placeholder": "example@example.com",
+					"footer_newsletter_cta": "登録する",
+					"footer_copyright": "© {year} {title}. 無断転載を禁じます。",
 					"social_pinterest": "https://pinterest.com/"
 				}
 			}
@@ -2758,9 +2758,9 @@
 				"status": "published",
 				"data": {
 					"label": "Homepage · Bento (categories)",
-					"eyebrow": "Browse by type",
-					"title": "Everything you need,\nin one place",
-					"subtitle": "Four ways to shop — from everyday objects to digital downloads and curated monthly boxes.",
+					"eyebrow": "種類から探す",
+					"title": "必要なものを、\nひとつの場所に",
+					"subtitle": "日々の道具から、デジタル商品、毎月のボックスまで。四つの買い方があります。",
 					"render_mode": "band",
 					"theme": "light",
 					"alignment": "left",
@@ -2775,12 +2775,12 @@
 				"status": "published",
 				"data": {
 					"label": "Homepage · Products (shop grid)",
-					"eyebrow": "The selection",
-					"title": "New in\nthis season",
+					"eyebrow": "品ぞろえ",
+					"title": "今シーズンの\n新しい品",
 					"render_mode": "compact",
 					"theme": "dark",
 					"alignment": "left",
-					"cta_label": "View all products",
+					"cta_label": "すべての商品を見る",
 					"cta_href": "/shop"
 				}
 			},
@@ -2790,13 +2790,13 @@
 				"status": "published",
 				"data": {
 					"label": "Homepage · Journal (posts)",
-					"eyebrow": "The Journal",
-					"title": "From the editors",
-					"subtitle": "Product stories, buying guides, and notes from the workshop.",
+					"eyebrow": "ジャーナル",
+					"title": "編集部から",
+					"subtitle": "商品のものがたり、選び方、工房からのメモ。",
 					"render_mode": "compact",
 					"theme": "dark",
 					"alignment": "left",
-					"cta_label": "View all posts",
+					"cta_label": "すべての記事を見る",
 					"cta_href": "/blog"
 				}
 			}

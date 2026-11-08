@@ -76,7 +76,7 @@ export function canSwitchCurrency(cart: CartState): boolean {
 
 export function switchCurrency(cart: CartState, currency: CurrencyCode): CartState {
 	if (!canSwitchCurrency(cart)) {
-		throw new Error("Cannot switch currency on a non-empty cart. Clear first.");
+		throw new Error("商品が入ったカートでは通貨を切り替えられません。先にカートを空にしてください。");
 	}
 	const cc = currency.toUpperCase();
 	return {

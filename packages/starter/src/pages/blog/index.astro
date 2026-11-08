@@ -66,10 +66,10 @@ const fmtDate = (raw: string | Date | undefined | null) => {
   if (!raw) return "";
   const d = raw instanceof Date ? raw : new Date(raw);
   if (Number.isNaN(d.getTime())) return "";
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
+  return new Intl.DateTimeFormat("ja-JP", {
     year: "numeric",
+    month: "long",
+    day: "numeric",
   }).format(d);
 };
 
@@ -107,17 +107,16 @@ const restCards = rest.map(toCard);
 ---
 
 <Shop
-  title="Journal"
-  description="Product stories, buying guides and behind-the-scenes."
+  title="読みもの"
+  description="商品の背景、選び方、舞台裏の話。"
 >
   <!-- ═══════════ BLOG HERO ═══════════ -->
   <section class="blog-hero">
     <div class="container blog-hero-inner">
-      <p class="blog-eyebrow">The Journal</p>
-      <h1 class="blog-title">Notes &amp; stories</h1>
+      <p class="blog-eyebrow">読みもの</p>
+      <h1 class="blog-title">ノートと、ものがたり</h1>
       <p class="blog-sub">
-        Product stories, buying guides, and the occasional peek inside the
-        workshop. New writing roughly every other week.
+        商品の背景、選び方、工房の舞台裏。およそ隔週で新しい記事を公開しています。
       </p>
     </div>
   </section>
@@ -126,8 +125,8 @@ const restCards = rest.map(toCard);
   {categories.length > 0 && (
     <div class="blog-nav-strip">
       <div class="container blog-nav-inner">
-        <span class="blog-nav-label">Filter</span>
-        <a href="/blog" class="blog-chip is-active">All <em>{allSorted.length}</em></a>
+        <span class="blog-nav-label">絞り込み</span>
+        <a href="/blog" class="blog-chip is-active">すべて <em>{allSorted.length}</em></a>
         {categories.filter((c) => c.count > 0).map((c) => (
           <a href={`/blog/category/${c.slug}`} class="blog-chip">
             {c.label} <em>{c.count}</em>
@@ -142,10 +141,10 @@ const restCards = rest.map(toCard);
     {sorted.length === 0 ? (
       <div class="blog-empty">
         <div class="blog-empty-icon" aria-hidden="true">✦</div>
-        <h2>No posts yet</h2>
+        <h2>まだ記事がありません</h2>
         <p>
-          Write your first post in the admin and it'll appear here.
-          <a href="/_emdash/admin/content/posts/new">Create a post →</a>
+          管理画面で最初の記事を書くと、ここに表示されます。
+          <a href="/_emdash/admin/content/posts/new">記事を作成</a>
         </p>
       </div>
     ) : (
@@ -157,7 +156,7 @@ const restCards = rest.map(toCard);
                 <Image image={featuredCard.cover} alt="" class="blog-featured-cover" loading="eager" />
               )}
               <div class="blog-featured-overlay"></div>
-              <span class="blog-pill">Latest</span>
+              <span class="blog-pill">最新</span>
             </div>
             <div class="blog-featured-body">
               {featuredCard.categories.length > 0 && (
@@ -172,7 +171,7 @@ const restCards = rest.map(toCard);
               <div class="blog-card-meta">
                 {featuredCard.author && <span>{featuredCard.author}</span>}
                 {featuredCard.date && <span>{featuredCard.date}</span>}
-                {featuredCard.minutes > 0 && <span>{featuredCard.minutes} min read</span>}
+                {featuredCard.minutes > 0 && <span>読了の目安 {featuredCard.minutes}分</span>}
               </div>
             </div>
           </a>
@@ -180,7 +179,7 @@ const restCards = rest.map(toCard);
 
         {restCards.length > 0 && (
           <div class="blog-grid-hd">
-            <h3>More from the journal</h3>
+            <h3>ほかの記事</h3>
           </div>
         )}
 
@@ -192,7 +191,7 @@ const restCards = rest.map(toCard);
                   {c.cover && (
                     <Image image={c.cover} alt="" class="blog-card-cover" loading="lazy" />
                   )}
-                  <div class="blog-card-view">Read →</div>
+                  <div class="blog-card-view">読む</div>
                 </div>
                 <div class="blog-card-body">
                   {c.categories.length > 0 && (
@@ -202,7 +201,7 @@ const restCards = rest.map(toCard);
                   {c.excerpt && <p class="blog-card-excerpt">{c.excerpt}</p>}
                   <div class="blog-card-meta">
                     {c.date && <span>{c.date}</span>}
-                    {c.minutes > 0 && <span>{c.minutes} min read</span>}
+                    {c.minutes > 0 && <span>読了の目安 {c.minutes}分</span>}
                   </div>
                 </div>
               </a>

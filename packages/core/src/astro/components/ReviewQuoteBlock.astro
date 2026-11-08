@@ -47,19 +47,19 @@ const usable =
 ---
 {usable && review ? (
   <blockquote class="dc-review-quote">
-    <p class="dc-review-quote-stars" aria-label={`${review.rating} out of 5 stars`}>
+    <p class="dc-review-quote-stars" aria-label={`5段階中 ${review.rating}`}>
       {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
     </p>
     {review.title && <p class="dc-review-quote-title">{review.title}</p>}
     <p class="dc-review-quote-body">"{review.body}"</p>
     <footer>
       — {review.customerName}
-      {review.verifiedPurchase && <span class="dc-verified"> · Verified purchase</span>}
+      {review.verifiedPurchase && <span class="dc-verified"> · 購入済み</span>}
     </footer>
   </blockquote>
 ) : (
   <div class="dc-review-missing">
-    <em>Review not available{reviewId ? `: ${reviewId}` : ""}.</em>
+    <em>レビューを表示できません{reviewId ? `（${reviewId}）` : ""}。</em>
   </div>
 )}
 <style>

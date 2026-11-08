@@ -12,12 +12,12 @@ if (cacheHint) Astro.cache.set(cacheHint);
 const filterParam = Astro.url.searchParams.get("type") ?? "all";
 
 const typeLabels: Record<string, string> = {
-  all: "All",
-  simple: "Physical",
-  variable: "Variable",
-  subscription: "Subscriptions",
-  grouped: "Bundles",
-  external: "External",
+  all: "すべて",
+  simple: "物販",
+  variable: "バリエーション",
+  subscription: "定期購入",
+  grouped: "セット",
+  external: "外部リンク",
 };
 
 const products = filterParam === "all"
@@ -55,7 +55,7 @@ const productCards = products.map((p) => {
     image:   img ?? null,
     isOut:   p.data.stock_status === "outofstock",
     isFeat:  Boolean(p.data.featured),
-    label:   typeLabels[(p.data.type as string) ?? ""] ?? (p.data.type as string) ?? "product",
+    label:   typeLabels[(p.data.type as string) ?? ""] ?? (p.data.type as string) ?? "商品",
   };
 });
 
@@ -64,21 +64,21 @@ const tabs = ["all", ...availableTypes];
 ---
 
 <Shop
-  title="Shop"
-  description={`Browse ${allProducts.length} products — physical goods, digital downloads, subscriptions and more.`}
+  title="ショップ"
+  description={`物販、デジタル商品、定期購入など、${allProducts.length}点の商品をご覧いただけます。`}
 >
 
   <!-- Page header -->
   <div class="shop-hero">
     <div class="container">
-      <p class="shop-eyebrow">The full catalog</p>
-      <h1 class="shop-title">Everything,<br /><em>in one place</em></h1>
+      <p class="shop-eyebrow">すべての商品</p>
+      <h1 class="shop-title">すべての商品を、<br /><em>ひとつの場所に</em></h1>
     </div>
   </div>
 
   <div class="container shop-layout">
     <!-- Filter tabs -->
-    <nav class="filter-tabs" aria-label="Filter by product type">
+    <nav class="filter-tabs" aria-label="商品タイプで絞り込む">
       {tabs.map((type) => (
         <a
           href={type === "all" ? "/shop" : `/shop?type=${type}`}
@@ -95,19 +95,19 @@ const tabs = ["all", ...availableTypes];
 
     <!-- Result count -->
     <p class="result-count" aria-live="polite">
-      {products.length} {products.length === 1 ? "product" : "products"}
-      {filterParam !== "all" && <span> · <a href="/shop">Clear filter ×</a></span>}
+      {products.length}点
+      {filterParam !== "all" && <span> · <a href="/shop">絞り込みを解除</a></span>}
     </p>
 
     <!-- Grid -->
     {products.length === 0 ? (
       <div class="shop-empty">
         <div class="shop-empty-icon" aria-hidden="true">◈</div>
-        <h2>No products found</h2>
+        <h2>商品が見つかりません</h2>
         <p>
           {filterParam === "all"
-            ? <>Run <code>bun run seed</code> to load demo products.</>
-            : <>No products of this type yet. <a href="/shop">Browse all →</a></>}
+            ? <>デモ商品はまだ読み込まれていません。</>
+            : <>このタイプの商品はまだありません。<a href="/shop">すべての商品を見る</a></>}
         </p>
       </div>
     ) : (
@@ -116,11 +116,11 @@ const tabs = ["all", ...availableTypes];
           <li>
             <div class="pcard">
               <div class="pcard-img" style={`background: ${c.grad};`}>
-                <a href={c.href} class="pcard-image-link" aria-label={`${c.title} — View product`}>
+                <a href={c.href} class="pcard-image-link" aria-label={`${c.title}の商品ページ`}>
                   {c.image && <Image image={c.image} alt={c.title} />}
-                  {c.isOut  && <span class="pcard-badge pcard-badge-out">Sold out</span>}
-                  {c.isFeat && <span class="pcard-badge pcard-badge-feat">Featured</span>}
-                  <div class="pcard-view">View →</div>
+                  {c.isOut  && <span class="pcard-badge pcard-badge-out">売り切れ</span>}
+                  {c.isFeat && <span class="pcard-badge pcard-badge-feat">おすすめ</span>}
+                  <div class="pcard-view">見る</div>
                 </a>
               </div>
               <div class="pcard-body">

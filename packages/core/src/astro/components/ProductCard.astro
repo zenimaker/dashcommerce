@@ -37,14 +37,14 @@ const prices = d.prices ?? {};
 const cc = (currency ?? Object.keys(prices)[0] ?? "USD").toUpperCase();
 const price = prices[cc];
 
-const formatMoney = (amountMinor: number) => {
+	const formatMoney = (amountMinor: number) => {
+	const loc = locale ?? "ja-JP";
 	try {
-		return new Intl.NumberFormat(locale ?? "en-US", {
-			style: "currency",
-			currency: cc,
-		}).format(amountMinor / 100);
+		const fmt = new Intl.NumberFormat(loc, { style: "currency", currency: cc });
+		const digits = fmt.resolvedOptions().maximumFractionDigits;
+		return fmt.format(amountMinor / 10 ** digits);
 	} catch {
-		return `${cc} ${amountMinor / 100}`;
+		return `${cc} ${amountMinor}`;
 	}
 };
 
@@ -66,9 +66,9 @@ const outOfStock = d.stock_status === "outofstock";
 				)}
 			</p>
 		) : (
-			<p class="dc-product-card-price dc-unavailable">Not available in {cc}</p>
+			<p class="dc-product-card-price dc-unavailable">{cc} では取り扱っていません</p>
 		)}
-		{outOfStock && <p class="dc-product-card-badge">Out of stock</p>}
+		{outOfStock && <p class="dc-product-card-badge">在庫切れ</p>}
 	</div>
 </a>
 <style>
