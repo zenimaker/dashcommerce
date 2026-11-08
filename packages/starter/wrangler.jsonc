@@ -1,13 +1,13 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "dashcommerce-demo",
+	"name": "dashcommerce-demo-20261004-0813",
 	// Custom Worker entry: Astro's fetch handler + EmDash's scheduled() handler,
 	// which the Cron Trigger below drives (plugin cron, scheduled publishing,
 	// system cleanup). See src/worker.ts. The @astrojs/cloudflare adapter merges
 	// its `assets` binding into the generated `dist/server/wrangler.json` at
 	// build time; `bun run build:cf` emits that file and we deploy against it.
 	"main": "./src/worker.ts",
-	"compatibility_date": "2026-04-01",
+	"compatibility_date": "2026-09-01",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
@@ -22,24 +22,26 @@
 	// Deploy against the adapter-generated `dist/server/wrangler.json`, which
 	// merges `assets` + the bindings/vars below. Use `bun run cf:deploy`.
 	"vars": {
-		"SITE_URL": "https://demo.dashcommerce.dev"
+		"SITE_URL": "https://dashcommerce-demo-20261004-0813.820.workers.dev"
 	},
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "dashcommerce-demo",
-			"database_id": "REPLACE_AFTER_WRANGLER_D1_CREATE"
+			"database_name": "dashcommerce-demo-20261004-0813",
+			"database_id": "1d132688-ad09-4255-bbcc-1da649d88509"
 		}
 	],
+	"preview_urls": true,
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			"bucket_name": "dashcommerce-demo-media"
+			"bucket_name": "dashcommerce-demo-20261004-0813-media"
 		}
 	],
 	"kv_namespaces": [
 		{
-			"binding": "SESSION"
+			"binding": "SESSION",
+			"id": "f039b9a0bec0497e88d83a3bce63b71a"
 		}
 	]
 	// Sandboxed plugins (DashCommerce Lite, DASHCOMMERCE_EDITION=sandboxed, or

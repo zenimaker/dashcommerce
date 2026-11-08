@@ -2,6 +2,7 @@
 import { getEmDashCollection } from "emdash";
 import { Image } from "emdash/ui";
 import Shop from "../../layouts/Shop.astro";
+import { formatMoney } from "../../lib/money";
 
 export const prerender = false;
 
@@ -25,12 +26,11 @@ const products = filterParam === "all"
 
 type PriceMap = Record<string, { amount: number }>;
 
-const fmt = (priceMap?: PriceMap) => {
-  const p = priceMap?.USD;
-  if (!p) return null;
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p.amount / 100);
+const formatPrice = (priceMap?: PriceMap) => {
+  const currency = priceMap?.USD ? "USD" : Object.keys(priceMap ?? {})[0];
+  const price = currency ? priceMap?.[currency] : undefined;
+  return currency && price ? { currency, label: formatMoney(price.amount, currency) } : null;
 };
-
 const typeGrad: Record<string, string> = {
   simple:       "linear-gradient(135deg,#2d1800,#4a2c0a)",
   variable:     "linear-gradient(135deg,#1a0f00,#3d2200)",
@@ -42,12 +42,15 @@ const getGrad = (type?: string) => (type && typeGrad[type]) ?? typeGrad.simple;
 
 // Pre-compute card data in frontmatter to avoid TS generics in JSX
 const productCards = products.map((p) => {
+  const price = formatPrice(p.data.prices as PriceMap);
   const img = p.data.featured_image ?? p.data.gallery_2 ?? null;
   return {
+    id:      p.data.id as string,
     href:    `/shop/${p.data.slug ?? p.id}`,
     title:   p.data.title as string,
     type:    (p.data.type as string) ?? "simple",
-    price:   fmt(p.data.prices as PriceMap),
+    price:   price?.label ?? null,
+    currency: price?.currency ?? null,
     grad:    getGrad(p.data.type as string),
     image:   img ?? null,
     isOut:   p.data.stock_status === "outofstock",
@@ -111,26 +114,59 @@ const tabs = ["all", ...availableTypes];
       <ul class="product-grid" role="list">
         {productCards.map((c) => (
           <li>
-            <a href={c.href} class="pcard" aria-label={`${c.title}${c.price ? ` — ${c.price}` : ""}`}>
+            <div class="pcard">
               <div class="pcard-img" style={`background: ${c.grad};`}>
-                {c.image && <Image image={c.image} alt={c.title} />}
-                {c.isOut  && <span class="pcard-badge pcard-badge-out">Sold out</span>}
-                {c.isFeat && <span class="pcard-badge pcard-badge-feat">Featured</span>}
-                <div class="pcard-view">View →</div>
+                <a href={c.href} class="pcard-image-link" aria-label={`${c.title} — View product`}>
+                  {c.image && <Image image={c.image} alt={c.title} />}
+                  {c.isOut  && <span class="pcard-badge pcard-badge-out">Sold out</span>}
+                  {c.isFeat && <span class="pcard-badge pcard-badge-feat">Featured</span>}
+                  <div class="pcard-view">View →</div>
+                </a>
               </div>
               <div class="pcard-body">
                 <span class="pcard-type">{c.label}</span>
-                <h2 class="pcard-title">{c.title}</h2>
-                <span class={`pcard-price${!c.price ? " pcard-na" : ""}`}>
-                  {c.price ?? "—"}
-                </span>
+                <h2 class="pcard-title"><a href={c.href}>{c.title}</a></h2>
+                <div class="pcard-buy">
+                  <span class={`pcard-price${!c.price ? " pcard-na" : ""}`}>{c.price ?? "—"}</span>
+                  {c.price && !c.isOut && (
+                    c.type === "simple"
+                      ? <button type="button" class="pcard-add" data-dc-product-id={c.id} data-dc-currency={c.currency}>カートに追加</button>
+                      : <a href={c.href} class="pcard-add">{c.type === "variable" ? "選択する" : "カートに追加"}</a>
+                  )}
+                </div>
+                <p class="pcard-cart-message" data-dc-message role="status" aria-live="polite"></p>
               </div>
-            </a>
+            </div>
           </li>
         ))}
       </ul>
     )}
   </div>
+
+
+<script>
+  document.addEventListener("click", async (event) => {
+    const button = (event.target as HTMLElement | null)?.closest<HTMLButtonElement>("button[data-dc-product-id]");
+    if (!button) return;
+    event.preventDefault(); event.stopPropagation();
+    const message = button.closest(".pcard-body")?.querySelector<HTMLElement>("[data-dc-message]");
+    const label = message || { textContent: "" };
+    button.disabled = true; label.textContent = "追加中…";
+    const params = { method: "POST", credentials: "include" as RequestCredentials, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ productId: button.dataset.dcProductId, quantity: 1 }) };
+    try {
+      let response = await fetch("/_emdash/api/plugins/dashcommerce/cart/items", params);
+      const result = await response.json().catch(() => ({}));
+      if (response.status === 409 && result.code === "currency_not_priced" && result.switchableCurrencies?.length === 1) {
+        const switched = await fetch("/_emdash/api/plugins/dashcommerce/cart/currency", { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ currency: button.dataset.dcCurrency }) });
+        if (switched.ok) response = await fetch("/_emdash/api/plugins/dashcommerce/cart/items", params);
+      }
+      if (!response.ok) { label.textContent = "この通貨では追加できません。"; return; }
+      window.dispatchEvent(new CustomEvent("dashcommerce:cart-updated"));
+      label.textContent = "カートに追加しました。";
+    } catch { label.textContent = "追加できませんでした。"; }
+    finally { button.disabled = false; }
+  });
+</script>
 
 </Shop>
 
@@ -273,6 +309,16 @@ const tabs = ["all", ...availableTypes];
     margin-top: auto; padding-top: .5rem;
   }
   .pcard-na { color: var(--text-subtle); }
+
+  .pcard-image-link { display:flex; width:100%; height:100%; text-decoration:none; }
+  .pcard-title a { color:inherit; text-decoration:none; }
+  .pcard-buy { display:flex; justify-content:flex-end; align-items:center; gap:.5rem; margin-top:auto; padding-top:.5rem; flex-wrap:wrap; }
+  .pcard-buy .pcard-price { margin:0; padding:0; white-space:nowrap; }
+  .pcard-add { display:inline-block; border:1px solid var(--gold); border-radius:4px; background:var(--gold); color:#0b0b0b; padding:.45rem .6rem; font-size:.72rem; font-weight:600; text-decoration:none; cursor:pointer; white-space:nowrap; }
+  .pcard-add:disabled { opacity:.6; cursor:wait; }
+  .pcard-cart-message { width:100%; min-height:0; margin:0; font-size:.75rem; text-align:right; color:var(--text-muted); }
+  .pcard-cart-message:empty { display:none; }
+  @media (max-width:420px) { .pcard-add { padding:.55rem .7rem; } .pcard-buy { gap:.35rem; } }
 
   /* Empty */
   .shop-empty {

@@ -1,0 +1,35 @@
+<script>
+  (() => {
+    const key = 'dashcommerce-theme';
+    const root = document.documentElement;
+    const preference = window.matchMedia('(prefers-color-scheme: dark)');
+    const saved = () => { try { return localStorage.getItem(key); } catch { return null; } };
+    const apply = (theme) => {
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        const dark = theme === 'dark';
+        button.setAttribute('aria-pressed', String(dark));
+        button.setAttribute('aria-label', dark ? '\u30E9\u30A4\u30C8\u30E2\u30FC\u30C9\u306B\u5207\u308A\u66FF\u3048\u308B' : '\u30C0\u30FC\u30AF\u30E2\u30FC\u30C9\u306B\u5207\u308A\u66FF\u3048\u308B');
+        button.title = dark ? '\u30E9\u30A4\u30C8\u30E2\u30FC\u30C9\u306B\u5207\u308A\u66FF\u3048\u308B' : '\u30C0\u30FC\u30AF\u30E2\u30FC\u30C9\u306B\u5207\u308A\u66FF\u3048\u308B';
+        const icon = button.querySelector('[data-theme-icon]');
+        if (icon) icon.textContent = dark ? '\u2600' : '\u263E';
+      });
+    };
+    const initial = saved();
+    apply(initial === 'light' || initial === 'dark' ? initial : preference.matches ? 'dark' : 'light');
+    document.addEventListener('DOMContentLoaded', () => apply(root.dataset.theme));
+    document.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
+      const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      apply(theme);
+      try { localStorage.setItem(key, theme); } catch {}
+    });
+    preference.addEventListener('change', () => {
+      if (!['light', 'dark'].includes(saved())) apply(preference.matches ? 'dark' : 'light');
+    });
+    window.addEventListener('storage', (event) => {
+      if (event.key === key) apply(['light', 'dark'].includes(event.newValue) ? event.newValue : preference.matches ? 'dark' : 'light');
+    });
+  })();
+</script>

@@ -31,7 +31,7 @@ type PriceMap = Record<string, { amount: number }>;
 const fmt = (priceMap?: PriceMap) => {
   const p = priceMap?.USD;
   if (!p) return null;
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p.amount / 100);
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p.amount / 10 ** currencyMinorDigits("USD"));
 };
 
 

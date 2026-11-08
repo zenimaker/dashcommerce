@@ -57,14 +57,16 @@ const prices = d.prices ?? {};
 const cc = (currency ?? Object.keys(prices)[0] ?? "USD").toUpperCase();
 const price = prices[cc];
 
+const format = new Intl.NumberFormat(locale ?? "en-US", {
+	style: "currency",
+	currency: cc,
+});
+const minorDigits = format.resolvedOptions().maximumFractionDigits;
 const formatMoney = (amountMinor: number) => {
 	try {
-		return new Intl.NumberFormat(locale ?? "en-US", {
-			style: "currency",
-			currency: cc,
-		}).format(amountMinor / 100);
+		return format.format(amountMinor / 10 ** minorDigits);
 	} catch {
-		return `${cc} ${amountMinor / 100}`;
+		return `${cc} ${amountMinor / 10 ** minorDigits}`;
 	}
 };
 
