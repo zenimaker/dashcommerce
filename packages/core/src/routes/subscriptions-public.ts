@@ -80,7 +80,7 @@ async function loadAuthorisedSub(
 	}
 	const sub = await findSubscription(ctx, verified.subscriptionId);
 	if (!sub) {
-		return { ok: false, response: jsonResponse({ error: "Subscription not found" }, 404) };
+		return { ok: false, response: jsonResponse({ error: "定期購入が見つかりません" }, 404) };
 	}
 	return { ok: true, subscription: sub };
 }
@@ -124,7 +124,7 @@ async function handleCancel(
 			error: err instanceof Error ? err.message : String(err),
 		});
 		return jsonResponse(
-			{ error: err instanceof Error ? err.message : "Subscription update failed" },
+			{ error: err instanceof Error ? err.message : "定期購入を更新できませんでした" },
 			500,
 		);
 	}
@@ -158,7 +158,7 @@ async function handlePause(
 			error: err instanceof Error ? err.message : String(err),
 		});
 		return jsonResponse(
-			{ error: err instanceof Error ? err.message : "Subscription update failed" },
+			{ error: err instanceof Error ? err.message : "定期購入を更新できませんでした" },
 			500,
 		);
 	}
@@ -188,7 +188,7 @@ async function handleResume(
 			error: err instanceof Error ? err.message : String(err),
 		});
 		return jsonResponse(
-			{ error: err instanceof Error ? err.message : "Subscription update failed" },
+			{ error: err instanceof Error ? err.message : "定期購入を更新できませんでした" },
 			500,
 		);
 	}
@@ -218,7 +218,7 @@ async function handlePortal(
 	const customerId = loaded.subscription.customerId;
 	if (!customerId) {
 		return jsonResponse(
-			{ error: "Subscription has no linked customer — cannot open portal" },
+			{ error: "この定期購入には顧客情報が紐づいていないため、ポータルを開けません" },
 			409,
 		);
 	}
@@ -260,7 +260,7 @@ async function handlePortal(
 			error: err instanceof Error ? err.message : String(err),
 		});
 		return jsonResponse(
-			{ error: err instanceof Error ? err.message : "Portal session failed" },
+			{ error: err instanceof Error ? err.message : "請求ポータルを開けませんでした" },
 			500,
 		);
 	}

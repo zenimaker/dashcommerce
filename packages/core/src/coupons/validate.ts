@@ -40,14 +40,14 @@ export function validateCoupon(
 ): ValidationResult {
 	const { cart } = ctx;
 
-	if (coupon.status !== "active") return { ok: false, reason: "Coupon inactive." };
+	if (coupon.status !== "active") return { ok: false, reason: "このクーポンは無効です。" };
 
 	const now = Date.now();
 	if (coupon.startsAt && Date.parse(coupon.startsAt) > now) {
-		return { ok: false, reason: "Coupon not yet active." };
+		return { ok: false, reason: "このクーポンは、まだ使えません。" };
 	}
 	if (coupon.endsAt && Date.parse(coupon.endsAt) < now) {
-		return { ok: false, reason: "Coupon expired." };
+		return { ok: false, reason: "このクーポンは期限切れです。" };
 	}
 
 	// Currency scope: fixed_* requires an explicit currency matching the cart
@@ -58,33 +58,33 @@ export function validateCoupon(
 	) {
 		return {
 			ok: false,
-			reason: `Coupon is in ${coupon.currency}; cart is in ${cart.currency}.`,
+			reason: `クーポンの通貨は ${coupon.currency}、カートの通貨は ${cart.currency} です。`,
 		};
 	}
 
 	if (coupon.minAmount && cart.subtotal.amount < coupon.minAmount.amount) {
-		return { ok: false, reason: "Cart subtotal below coupon minimum." };
+		return { ok: false, reason: "カートの小計が、クーポンの最低金額に達していません。" };
 	}
 	if (coupon.maxAmount && cart.subtotal.amount > coupon.maxAmount.amount) {
-		return { ok: false, reason: "Cart subtotal above coupon maximum." };
+		return { ok: false, reason: "カートの小計が、クーポンの上限を超えています。" };
 	}
 
 	if (coupon.usageLimit !== undefined && coupon.usageCount >= coupon.usageLimit) {
-		return { ok: false, reason: "Coupon usage limit reached." };
+		return { ok: false, reason: "このクーポンは利用上限に達しています。" };
 	}
 	if (
 		coupon.usageLimitPerCustomer !== undefined &&
 		ctx.usageByCustomer !== undefined &&
 		ctx.usageByCustomer >= coupon.usageLimitPerCustomer
 	) {
-		return { ok: false, reason: "You have already used this coupon." };
+		return { ok: false, reason: "このクーポンはすでに使用済みです。" };
 	}
 
 	if (coupon.individualUse && cart.coupons.length > 0) {
-		return { ok: false, reason: "This coupon cannot be combined with others." };
+		return { ok: false, reason: "このクーポンは、ほかのクーポンと併用できません。" };
 	}
 	if (!coupon.individualUse && cart.coupons.some((c) => c.code === coupon.code)) {
-		return { ok: false, reason: "Coupon already applied." };
+		return { ok: false, reason: "このクーポンはすでに適用されています。" };
 	}
 
 	const hasProductFilter = Boolean(
@@ -100,7 +100,7 @@ export function validateCoupon(
 			return false;
 		});
 		if (!anyMatch) {
-			return { ok: false, reason: "Coupon does not apply to any item in cart." };
+			return { ok: false, reason: "カート内に、このクーポンの対象商品がありません。" };
 		}
 	}
 

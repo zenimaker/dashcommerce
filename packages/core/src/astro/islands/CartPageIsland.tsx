@@ -47,7 +47,11 @@ interface CartState {
 	currency: string;
 }
 
-function formatMoney(m: Money | null | undefined, locale = "en-US") {
+function moneyMinorDigits(currency: string, locale: string) {
+	return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions().maximumFractionDigits;
+}
+
+function formatMoney(m: Money | null | undefined, locale = "ja-JP") {
 	if (!m) return "—";
 	try {
 		return new Intl.NumberFormat(locale, {
@@ -70,7 +74,7 @@ export interface CartPageIslandProps {
 export default function CartPageIsland({
 	checkoutHref = "/checkout",
 	shopHref = "/shop",
-	locale = "en-US",
+	locale = "ja-JP",
 }: CartPageIslandProps) {
 	const [cart, setCart] = useState<CartState | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -82,14 +86,14 @@ export default function CartPageIsland({
 		try {
 			const res = await fetch(`${API}/cart`, { credentials: "include" });
 			if (!res.ok) {
-				setError(`Failed to load cart (${res.status})`);
+				setError(`カートを読み込めませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
 			setCart(body.cart);
 			setError(null);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		}
 	}, []);
 
@@ -117,13 +121,13 @@ export default function CartPageIsland({
 			);
 			if (!res.ok) {
 				const body = (await res.json().catch(() => ({}))) as { error?: string };
-				setError(body.error ?? `Update failed (${res.status})`);
+				setError(body.error ?? `更新できませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
 			setCart(body.cart);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -139,13 +143,13 @@ export default function CartPageIsland({
 			);
 			if (!res.ok) {
 				const body = (await res.json().catch(() => ({}))) as { error?: string };
-				setError(body.error ?? `Remove failed (${res.status})`);
+				setError(body.error ?? `削除できませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
 			setCart(body.cart);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -166,21 +170,21 @@ export default function CartPageIsland({
 			});
 			if (!res.ok) {
 				const body = (await res.json().catch(() => ({}))) as { error?: string };
-				setCouponError(body.error ?? `Coupon rejected (${res.status})`);
+				setCouponError(body.error ?? `クーポンを適用できませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
 			setCart(body.cart);
 			setCouponDraft("");
 		} catch (err) {
-			setCouponError(err instanceof Error ? err.message : "Network error");
+			setCouponError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
 	}
 
 	async function clearCart() {
-		const ok = window.confirm("Remove everything from your cart?");
+		const ok = window.confirm("カートの商品をすべて削除しますか？");
 		if (!ok) return;
 		setPending(true);
 		setError(null);
@@ -194,12 +198,12 @@ export default function CartPageIsland({
 				error?: string;
 			};
 			if (!res.ok) {
-				setError(body.error ?? `Clear failed (${res.status})`);
+				setError(body.error ?? `カートを空にできませんでした（${res.status}）`);
 				return;
 			}
 			if (body.cart) setCart(body.cart);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -215,25 +219,25 @@ export default function CartPageIsland({
 			);
 			if (!res.ok) {
 				const body = (await res.json().catch(() => ({}))) as { error?: string };
-				setCouponError(body.error ?? `Remove failed (${res.status})`);
+				setCouponError(body.error ?? `削除できませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
 			setCart(body.cart);
 		} catch (err) {
-			setCouponError(err instanceof Error ? err.message : "Network error");
+			setCouponError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
 	}
 
-	if (!cart && !error) return <p>Loading cart…</p>;
+	if (!cart && !error) return <p>カートを読み込んでいます…</p>;
 	if (error) {
 		return (
 			<div role="alert" className="dc-cart-error">
 				<p>{error}</p>
 				<button type="button" onClick={reload}>
-					Retry
+					再試行
 				</button>
 			</div>
 		);
@@ -243,9 +247,9 @@ export default function CartPageIsland({
 	if (cart.items.length === 0) {
 		return (
 			<div className="dc-cart-empty">
-				<h2>Your cart is empty</h2>
+				<h2>カートは空です</h2>
 				<p>
-					<a href={shopHref}>← Continue shopping</a>
+					<a href={shopHref}>買い物を続ける</a>
 				</p>
 			</div>
 		);
@@ -256,10 +260,10 @@ export default function CartPageIsland({
 			<table className="dc-cart-table">
 				<thead>
 					<tr>
-						<th scope="col" className="dc-th-item">Item</th>
-						<th scope="col" className="dc-th-qty">Qty</th>
-						<th scope="col" className="dc-th-total">Line total</th>
-						<th scope="col"><span className="dc-sr-only">Remove</span></th>
+						<th scope="col" className="dc-th-item">商品</th>
+						<th scope="col" className="dc-th-qty">数量</th>
+						<th scope="col" className="dc-th-total">小計</th>
+						<th scope="col"><span className="dc-sr-only">削除</span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -268,14 +272,14 @@ export default function CartPageIsland({
 							<td>
 								<strong>{it.title}</strong>
 								<div className="dc-line-unit">
-									{formatMoney(it.unitPrice, locale)} each
+									各 {formatMoney(it.unitPrice, locale)}
 								</div>
 							</td>
 							<td>
 								<div className="dc-qty-controls">
 									<button
 										type="button"
-										aria-label={`Decrease quantity of ${it.title}`}
+										aria-label={`${it.title}の数量を減らす`}
 										disabled={pending || it.quantity <= 1}
 										onClick={() => updateQuantity(it.lineId, it.quantity - 1)}
 									>
@@ -285,7 +289,7 @@ export default function CartPageIsland({
 										type="number"
 										min={1}
 										value={it.quantity}
-										aria-label={`Quantity of ${it.title}`}
+										aria-label={`${it.title}の数量`}
 										onChange={(e) => {
 											const n = Math.max(1, Number(e.currentTarget.value) || 1);
 											updateQuantity(it.lineId, n);
@@ -294,7 +298,7 @@ export default function CartPageIsland({
 									/>
 									<button
 										type="button"
-										aria-label={`Increase quantity of ${it.title}`}
+										aria-label={`${it.title}の数量を増やす`}
 										disabled={pending}
 										onClick={() => updateQuantity(it.lineId, it.quantity + 1)}
 									>
@@ -309,7 +313,7 @@ export default function CartPageIsland({
 								<button
 									type="button"
 									className="dc-remove"
-									aria-label={`Remove ${it.title}`}
+									aria-label={`${it.title}を削除`}
 									disabled={pending}
 									onClick={() => removeLine(it.lineId)}
 								>
@@ -322,22 +326,22 @@ export default function CartPageIsland({
 			</table>
 
 			<section className="dc-coupon">
-				<h3>Coupon</h3>
+				<h3>クーポン</h3>
 				{cart.coupons.length > 0 && (
 					<ul className="dc-applied-coupons">
 						{cart.coupons.map((c) => (
 							<li key={c.code}>
 								<code>{c.code}</code>{" "}
 								{c.freeShipping
-									? "(free shipping)"
+									? "（送料無料）"
 									: `−${formatMoney(c.discountAmount, locale)}`}
 								<button
 									type="button"
 									onClick={() => removeCoupon(c.code)}
 									disabled={pending}
-									aria-label={`Remove coupon ${c.code}`}
+									aria-label={`クーポン ${c.code} を削除`}
 								>
-									Remove
+									削除
 								</button>
 							</li>
 						))}
@@ -345,17 +349,18 @@ export default function CartPageIsland({
 				)}
 				<form onSubmit={applyCoupon} className="dc-coupon-form">
 					<label>
-						Have a code?{" "}
+						クーポンコード{" "}
 						<input
 							type="text"
 							value={couponDraft}
 							onChange={(e) => setCouponDraft(e.currentTarget.value)}
-							placeholder="SAVE10"
+							placeholder="クーポンコード"
+							aria-label="クーポンコード"
 							disabled={pending}
 						/>
 					</label>
 					<button type="submit" disabled={pending || !couponDraft.trim()}>
-						Apply
+						適用
 					</button>
 				</form>
 				{couponError && (
@@ -367,45 +372,45 @@ export default function CartPageIsland({
 
 			<section className="dc-totals">
 				<div className="dc-total-row">
-					<span>Subtotal</span>
+					<span>小計</span>
 					<span>{formatMoney(cart.subtotal, locale)}</span>
 				</div>
 				{cart.discountTotal.amount > 0 && (
 					<div className="dc-total-row">
-						<span>Discount</span>
+						<span>割引</span>
 						<span>−{formatMoney(cart.discountTotal, locale)}</span>
 					</div>
 				)}
 				{cart.shippingTotal.amount > 0 && (
 					<div className="dc-total-row">
-						<span>Shipping</span>
+						<span>送料</span>
 						<span>{formatMoney(cart.shippingTotal, locale)}</span>
 					</div>
 				)}
 				{cart.taxTotal.amount > 0 && (
 					<div className="dc-total-row">
-						<span>Tax</span>
+						<span>税</span>
 						<span>{formatMoney(cart.taxTotal, locale)}</span>
 					</div>
 				)}
 				<div className="dc-total-row dc-total-row-grand">
-					<strong>Total</strong>
+					<strong>合計</strong>
 					<strong>{formatMoney(cart.total, locale)}</strong>
 				</div>
 			</section>
 
 			<div className="dc-cart-actions">
-				<a href={shopHref}>← Continue shopping</a>
+				<a href={shopHref}>買い物を続ける</a>
 				<button
 					type="button"
 					className="dc-clear-all"
 					onClick={clearCart}
 					disabled={pending}
 				>
-					Clear cart
+					カートを空にする
 				</button>
 				<a href={checkoutHref} className="dc-btn-primary">
-					Checkout →
+					レジに進む
 				</a>
 			</div>
 

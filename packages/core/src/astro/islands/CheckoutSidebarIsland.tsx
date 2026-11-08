@@ -40,15 +40,19 @@ interface CartState {
 
 const API = "/_emdash/api/plugins/dashcommerce";
 
-function formatMoney(m: Money | null | undefined, locale = "en-US") {
+function moneyMinorDigits(currency: string, locale: string) {
+	return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions().maximumFractionDigits;
+}
+
+function formatMoney(m: Money | null | undefined, locale = "ja-JP") {
 	if (!m) return "—";
 	try {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",
 			currency: m.currency,
-		}).format(m.amount / 100);
+		}).format(m.amount / 10 ** moneyMinorDigits(m.currency, locale));
 	} catch {
-		return `${m.currency} ${m.amount / 100}`;
+		return `${m.currency} ${m.amount / 10 ** moneyMinorDigits(m.currency, locale)}`;
 	}
 }
 
@@ -57,7 +61,7 @@ export interface CheckoutSidebarIslandProps {
 }
 
 export default function CheckoutSidebarIsland({
-	locale = "en-US",
+	locale = "ja-JP",
 }: CheckoutSidebarIslandProps) {
 	const [cart, setCart] = useState<CartState | null>(null);
 	const [methods, setMethods] = useState<ShippingRateOption[]>([]);
@@ -68,7 +72,7 @@ export default function CheckoutSidebarIsland({
 		try {
 			const res = await fetch(`${API}/cart`, { credentials: "include" });
 			if (!res.ok) {
-				setError(`Failed to load cart (${res.status})`);
+				setError(`カートを読み込めませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
@@ -84,7 +88,7 @@ export default function CheckoutSidebarIsland({
 				}
 			}
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		}
 	}, []);
 
@@ -107,7 +111,7 @@ export default function CheckoutSidebarIsland({
 			});
 			if (!res.ok) {
 				const body = (await res.json().catch(() => ({}))) as { error?: string };
-				setError(body.error ?? `Could not set shipping (${res.status})`);
+				setError(body.error ?? `配送方法を設定できませんでした（${res.status}）`);
 				return;
 			}
 			const body = (await res.json()) as { cart: CartState };
@@ -116,7 +120,7 @@ export default function CheckoutSidebarIsland({
 				new CustomEvent("dashcommerce:cart-updated", { detail: { silent: true } }),
 			);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -126,20 +130,20 @@ export default function CheckoutSidebarIsland({
 		return (
 			<aside
 				className="dc-checkout-sidebar"
-				aria-label="Order summary"
+				aria-label="注文内容"
 				style={{
 					color: "var(--text-muted, #666)",
 					fontSize: "0.9em",
 				}}
 			>
-				Loading summary…
+				注文内容を読み込んでいます…
 			</aside>
 		);
 	}
 
 	return (
-		<aside className="dc-checkout-sidebar" aria-label="Order summary">
-			<h3>Order summary</h3>
+		<aside className="dc-checkout-sidebar" aria-label="注文内容">
+			<h3>注文内容</h3>
 			{error && <p role="alert" className="dc-sidebar-error">{error}</p>}
 			<ul className="dc-sidebar-items">
 				{cart.items.map((it) => (
@@ -155,7 +159,7 @@ export default function CheckoutSidebarIsland({
 
 			{Boolean(cart.shippingAddress) && methods.length > 0 && (
 				<section className="dc-sidebar-shipping">
-					<h4>Shipping</h4>
+					<h4>配送</h4>
 					<ul>
 						{methods.map((m) => (
 							<li key={m.methodId}>
@@ -180,29 +184,29 @@ export default function CheckoutSidebarIsland({
 
 			<section className="dc-sidebar-totals">
 				<div className="dc-row">
-					<span>Subtotal</span>
+					<span>小計</span>
 					<span>{formatMoney(cart.subtotal, locale)}</span>
 				</div>
 				{cart.discountTotal.amount > 0 && (
 					<div className="dc-row">
-						<span>Discount</span>
+						<span>割引</span>
 						<span>−{formatMoney(cart.discountTotal, locale)}</span>
 					</div>
 				)}
 				{cart.shippingTotal.amount > 0 && (
 					<div className="dc-row">
-						<span>Shipping</span>
+						<span>送料</span>
 						<span>{formatMoney(cart.shippingTotal, locale)}</span>
 					</div>
 				)}
 				{cart.taxTotal.amount > 0 && (
 					<div className="dc-row">
-						<span>Tax</span>
+						<span>税</span>
 						<span>{formatMoney(cart.taxTotal, locale)}</span>
 					</div>
 				)}
 				<div className="dc-row dc-row-grand">
-					<strong>Total</strong>
+					<strong>合計</strong>
 					<strong>{formatMoney(cart.total, locale)}</strong>
 				</div>
 			</section>

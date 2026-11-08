@@ -103,7 +103,7 @@ async function repriceAndCheckStock(ctx: PluginContext, cart: CartState): Promis
 	for (const line of cart.items) {
 		const record = await ctx.content.get("products", line.productId);
 		if (!record || record.status !== "published") {
-			errors.push({ lineId: line.lineId, productId: line.productId, reason: "unavailable" });
+			errors.push({ lineId: line.lineId, productId: line.productId, reason: "購入できません" });
 			continue;
 		}
 		const fields = normalizeProductFields(record.data as Record<string, unknown>);
@@ -113,7 +113,7 @@ async function repriceAndCheckStock(ctx: PluginContext, cart: CartState): Promis
 				errors.push({
 					lineId: line.lineId,
 					productId: line.productId,
-					reason: "invalid variant for product",
+					reason: "この商品のバリエーションが無効です",
 				});
 				continue;
 			}
@@ -123,7 +123,7 @@ async function repriceAndCheckStock(ctx: PluginContext, cart: CartState): Promis
 			errors.push({
 				lineId: line.lineId,
 				productId: line.productId,
-				reason: `not priced in ${cart.currency}`,
+				reason: `${cart.currency} の価格がありません`,
 			});
 			continue;
 		}
@@ -133,7 +133,7 @@ async function repriceAndCheckStock(ctx: PluginContext, cart: CartState): Promis
 			errors.push({
 				lineId: line.lineId,
 				productId: line.productId,
-				reason: "out of stock",
+				reason: "在庫切れ",
 			});
 			continue;
 		}
@@ -154,7 +154,7 @@ async function repriceAndCheckStock(ctx: PluginContext, cart: CartState): Promis
 				errors.push({
 					lineId: line.lineId,
 					productId: line.productId,
-					reason: `only ${Math.max(0, available)} available`,
+					reason: `在庫は残り ${Math.max(0, available)} 点です`,
 				});
 				continue;
 			}
@@ -222,7 +222,7 @@ export const checkoutRoutes = {
 			const { sessionId } = resolveSessionId(routeCtx.request);
 			const cart = await getCart(ctx, sessionId);
 			if (!cart || cart.items.length === 0) {
-				return new Response(JSON.stringify({ error: "Cart is empty" }), {
+				return new Response(JSON.stringify({ error: "カートは空です" }), {
 					status: 400,
 					headers: { "Content-Type": "application/json" },
 				});
@@ -259,7 +259,7 @@ export const checkoutRoutes = {
 			// Server-side re-price + stock check.
 			const { items, errors, stockEntries } = await repriceAndCheckStock(ctx, withContact);
 			if (errors.length > 0) {
-				return new Response(JSON.stringify({ error: "Cart validation failed", errors }), {
+				return new Response(JSON.stringify({ error: "カートの内容を確認できませんでした", errors }), {
 					status: 409,
 					headers: { "Content-Type": "application/json" },
 				});
@@ -283,7 +283,7 @@ export const checkoutRoutes = {
 				await save(ctx, recalculated);
 				return new Response(
 					JSON.stringify({
-						error: "Cart totals changed — review and retry checkout",
+						error: "合計が変わりました。内容を確認して、もう一度お試しください",
 						code: "cart_totals_changed",
 						cart: recalculated,
 					}),
@@ -439,7 +439,7 @@ export const checkoutRoutes = {
 			const { sessionId } = resolveSessionId(routeCtx.request);
 			const cart = await getCart(ctx, sessionId);
 			if (!cart || cart.items.length === 0) {
-				return new Response(JSON.stringify({ error: "Cart is empty" }), {
+				return new Response(JSON.stringify({ error: "カートは空です" }), {
 					status: 400,
 					headers: { "Content-Type": "application/json" },
 				});
@@ -480,13 +480,13 @@ export const checkoutRoutes = {
 				if (!cart.shippingAddress?.country || !cart.shippingAddress?.postalCode) {
 					return new Response(
 						JSON.stringify({
-							error: "Pick a ship-to country and postal code before paying.",
+							error: "お支払いの前に、国と郵便番号を入力してください。",
 						}),
 						{ status: 409, headers: { "Content-Type": "application/json" } },
 					);
 				}
 				if (!cart.shippingMethod) {
-					return new Response(JSON.stringify({ error: "Select a shipping method first." }), {
+					return new Response(JSON.stringify({ error: "先に配送方法を選んでください。" }), {
 						status: 409,
 						headers: { "Content-Type": "application/json" },
 					});
@@ -501,7 +501,7 @@ export const checkoutRoutes = {
 
 			const { items, errors, stockEntries } = await repriceAndCheckStock(ctx, withContact);
 			if (errors.length > 0) {
-				return new Response(JSON.stringify({ error: "Cart validation failed", errors }), {
+				return new Response(JSON.stringify({ error: "カートの内容を確認できませんでした", errors }), {
 					status: 409,
 					headers: { "Content-Type": "application/json" },
 				});
@@ -513,7 +513,7 @@ export const checkoutRoutes = {
 				await save(ctx, recalculated);
 				return new Response(
 					JSON.stringify({
-						error: "Cart totals changed — review and retry checkout",
+						error: "合計が変わりました。内容を確認して、もう一度お試しください",
 						code: "cart_totals_changed",
 						cart: recalculated,
 					}),

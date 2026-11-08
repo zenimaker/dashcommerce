@@ -12,10 +12,10 @@ import Shop from "../../layouts/Shop.astro";
 export const prerender = false;
 
 const { slug } = Astro.params;
-if (!slug) return new Response("Not found", { status: 404 });
+if (!slug) return new Response("ページが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 
 const { entry: post, error } = await getEmDashEntry("posts", slug);
-if (error) return new Response("Failed to load post", { status: 500 });
+if (error) return new Response("記事を読み込めませんでした", { status: 500, headers: { "content-type": "text/plain; charset=utf-8" } });
 if (!post) return Astro.redirect("/blog", 302);
 
 const title = post.data.title ?? "";
@@ -49,7 +49,7 @@ const fmtDate = (raw: string | Date | undefined | null) => {
   if (!raw) return "";
   const d = raw instanceof Date ? raw : new Date(raw);
   if (Number.isNaN(d.getTime())) return "";
-  return new Intl.DateTimeFormat("en-GB", {
+  return new Intl.DateTimeFormat("ja-JP", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -138,10 +138,10 @@ const primaryTerm = primaryCategory
       </div>
     )}
     <div class="container article-hero-inner">
-      <nav class="article-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
+      <nav class="article-breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
         <span aria-hidden="true">›</span>
-        <a href="/blog">Journal</a>
+        <a href="/blog">読みもの</a>
         {primaryCategory && (
           <>
             <span aria-hidden="true">›</span>
@@ -170,11 +170,11 @@ const primaryTerm = primaryCategory
         {author && (
           <span class="article-author">
             <span class="article-author-dot" aria-hidden="true"></span>
-            By <strong>{author}</strong>
+            文: <strong>{author}</strong>
           </span>
         )}
         {dateLabel && <span>{dateLabel}</span>}
-        {minutes > 0 && <span>{minutes} min read</span>}
+        {minutes > 0 && <span>読了の目安 {minutes}分</span>}
       </div>
     </div>
   </header>
@@ -194,7 +194,7 @@ const primaryTerm = primaryCategory
           <PortableText value={[...body]} />
         </div>
       ) : (
-        <p class="article-empty">This post has no body yet.</p>
+        <p class="article-empty">この記事には、まだ本文がありません。</p>
       )}
     </div>
   </article>
@@ -204,8 +204,8 @@ const primaryTerm = primaryCategory
     <section class="article-related">
       <div class="container">
         <div class="article-related-hd">
-          <h2>Keep reading</h2>
-          <a href="/blog" class="article-related-all">All posts →</a>
+          <h2>あわせて読む</h2>
+          <a href="/blog" class="article-related-all">すべての記事</a>
         </div>
         <ul class="article-related-grid" role="list">
           {related.map((r) => (
@@ -221,7 +221,7 @@ const primaryTerm = primaryCategory
                   {r.excerpt && <p>{r.excerpt}</p>}
                   <div class="related-card-meta">
                     {r.date && <span>{r.date}</span>}
-                    {r.minutes > 0 && <span>{r.minutes} min read</span>}
+                    {r.minutes > 0 && <span>読了の目安 {r.minutes}分</span>}
                   </div>
                 </div>
               </a>

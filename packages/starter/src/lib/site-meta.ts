@@ -89,7 +89,7 @@ export async function getSiteMeta(): Promise<ResolvedSiteMeta> {
 		| undefined;
 
 	return {
-		title: settings.title ?? "My Shop",
+		title: settings.title ?? "ダッシュコマース",
 		tagline: settings.tagline ?? "",
 		logo: logoRef?.mediaId
 			? { url: logoRef.url, alt: logoRef.alt }

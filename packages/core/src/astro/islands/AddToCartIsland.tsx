@@ -29,7 +29,7 @@ export default function AddToCartIsland({
 	variantId,
 	variants = [],
 	attributeKeys = [],
-	label = "Add to cart",
+	label = "カートに追加",
 	disabled = false,
 }: AddToCartIslandProps) {
 	const [adding, setAdding] = useState(false);
@@ -51,7 +51,7 @@ export default function AddToCartIsland({
 		);
 		if (!res.ok) {
 			const body = (await res.json().catch(() => ({}))) as { error?: string };
-			setError(body.error ?? `Could not switch currency to ${next}`);
+			setError(body.error ?? `${next} に通貨を切り替えられませんでした`);
 			return;
 		}
 		setMismatch(null);
@@ -76,7 +76,7 @@ export default function AddToCartIsland({
 
 	async function add() {
 		if (!productId) {
-			setError("Missing product id. Check the page that renders this component.");
+			setError("商品IDがありません。この部品を表示しているページを確認してください。");
 			return;
 		}
 		setError(null);
@@ -118,15 +118,15 @@ export default function AddToCartIsland({
 						cartCurrency: body.cartCurrency,
 						switchableCurrencies: body.switchableCurrencies,
 					});
-					setError(body.error ?? "Product not priced in your currency.");
+					setError(body.error ?? "この商品は、現在の通貨では価格が設定されていません。");
 					return;
 				}
-				setError(body.error ?? `Could not add to cart (${res.status})`);
+				setError(body.error ?? `カートに追加できませんでした（${res.status}）`);
 				return;
 			}
 			window.dispatchEvent(new CustomEvent("dashcommerce:cart-updated"));
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setAdding(false);
 		}
@@ -142,14 +142,14 @@ export default function AddToCartIsland({
 						) as string[];
 						return (
 							<label key={key}>
-								<span>{key}: </span>
+								<span>{key} </span>
 								<select
 									value={selected[key] ?? ""}
 									onChange={(e) =>
 										setSelected({ ...selected, [key]: e.currentTarget.value })
 									}
 								>
-									<option value="">Pick {key}</option>
+									<option value="">{key}を選択</option>
 									{values.map((v) => (
 										<option key={v} value={v}>
 											{v}
@@ -163,7 +163,7 @@ export default function AddToCartIsland({
 			)}
 			<div className="dc-qty-row">
 				<label>
-					Qty{" "}
+					数量{" "}
 					<input
 						type="number"
 						min={1}
@@ -176,12 +176,12 @@ export default function AddToCartIsland({
 					disabled={disabled || adding || needsVariantPick}
 					onClick={add}
 				>
-					{adding ? "Adding…" : needsVariantPick ? "Pick a variant" : label}
+					{adding ? "追加しています…" : needsVariantPick ? "種類を選択" : label}
 				</button>
 			</div>
 			{error && <p role="alert" className="dc-add-to-cart__error">{error}</p>}
 			{mismatch && (
-				<div className="dc-currency-mismatch" role="group" aria-label="Switch currency">
+				<div className="dc-currency-mismatch" role="group" aria-label="通貨を切り替える">
 					{mismatch.switchableCurrencies.map((c) => (
 						<button
 							key={c}
@@ -189,7 +189,7 @@ export default function AddToCartIsland({
 							className="dc-currency-mismatch__btn"
 							onClick={() => switchCurrencyAndRetry(c)}
 						>
-							Switch to {c} &amp; add
+							{c} に切り替えて追加
 						</button>
 					))}
 				</div>

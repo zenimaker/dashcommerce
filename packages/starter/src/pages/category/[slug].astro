@@ -1,11 +1,12 @@
 ---
 import { getEntriesByTerm, getTaxonomyTerms, getTerm } from "emdash";
 import Shop from "../../layouts/Shop.astro";
+import { formatMoney } from "../../lib/money";
 
 export const prerender = false;
 
 const { slug } = Astro.params;
-if (!slug) return new Response("Category not found", { status: 404 });
+if (!slug) return new Response("カテゴリーが見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 
 // Per-category hero background tint. Everything else — label, description,
 // which products belong — lives in the `product_category` taxonomy and can
@@ -29,9 +30,9 @@ const products = await getEntriesByTerm("products", "product_category", slug);
 
 type PriceMap = Record<string, { amount: number }>;
 const fmt = (priceMap?: PriceMap) => {
-  const p = priceMap?.USD;
-  if (!p) return null;
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p.amount / 10 ** currencyMinorDigits("USD"));
+  const currency = priceMap?.USD ? "USD" : Object.keys(priceMap ?? {})[0];
+  const price = currency ? priceMap?.[currency] : undefined;
+  return currency && price ? formatMoney(price.amount, currency) : null;
 };
 
 
@@ -54,15 +55,15 @@ const otherCategories = allTerms
 
 <Shop
   title={term.label}
-  description={term.description ?? `Shop our ${term.label} collection.`}
+  description={term.description ?? `${term.label}の商品一覧です。`}
 >
   <!-- Category hero -->
   <div class="cat-hero" style={`background: ${bg};`}>
     <div class="container cat-hero-inner">
-      <nav class="cat-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
+      <nav class="cat-breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
         <span>›</span>
-        <a href="/shop">Shop</a>
+        <a href="/shop">ショップ</a>
         <span>›</span>
         <span aria-current="page">{term.label}</span>
       </nav>
@@ -70,7 +71,7 @@ const otherCategories = allTerms
       {term.description && <p class="cat-desc">{term.description}</p>}
       <div class="cat-meta">
         <span class="cat-count">
-          {products.length} {products.length === 1 ? "product" : "products"}
+          {products.length}点
         </span>
       </div>
     </div>
@@ -79,11 +80,11 @@ const otherCategories = allTerms
   <!-- Other categories nav -->
   <div class="cat-nav-strip">
     <div class="container cat-nav-inner">
-      <span class="cat-nav-label">Browse</span>
+      <span class="cat-nav-label">カテゴリー</span>
       {otherCategories.map((c) => (
         <a href={`/category/${c.slug}`} class="cat-nav-link">{c.label}</a>
       ))}
-      <a href="/shop" class="cat-nav-link cat-nav-all">All products</a>
+      <a href="/shop" class="cat-nav-link cat-nav-all">すべての商品</a>
     </div>
   </div>
 
@@ -92,10 +93,10 @@ const otherCategories = allTerms
     {products.length === 0 ? (
       <div class="cat-empty">
         <div class="cat-empty-icon" aria-hidden="true">◈</div>
-        <h2>No products yet</h2>
+        <h2>商品はまだありません</h2>
         <p>
-          This category is empty for now.
-          <a href="/shop">Browse all products →</a>
+          このカテゴリーには、まだ商品がありません。
+          <a href="/shop">すべての商品を見る</a>
         </p>
       </div>
     ) : (
@@ -111,9 +112,9 @@ const otherCategories = allTerms
             <li>
               <a href={href} class="cat-card" aria-label={`${p.data.title}${price ? ` — ${price}` : ""}`}>
                 <div class="cat-card-img" style={`background: ${grad};`}>
-                  {isOut  && <span class="cat-badge cat-badge-out">Sold out</span>}
-                  {isFeat && <span class="cat-badge cat-badge-feat">Featured</span>}
-                  <div class="cat-card-view">View →</div>
+                  {isOut  && <span class="cat-badge cat-badge-out">売り切れ</span>}
+                  {isFeat && <span class="cat-badge cat-badge-feat">おすすめ</span>}
+                  <div class="cat-card-view">見る</div>
                 </div>
                 <div class="cat-card-body">
                   <h2 class="cat-card-title">{p.data.title}</h2>

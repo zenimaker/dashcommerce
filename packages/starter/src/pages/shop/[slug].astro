@@ -11,12 +11,12 @@ import { SANDBOXED } from "../../lib/edition";
 export const prerender = false;
 
 const { slug } = Astro.params;
-if (!slug) return new Response("Product not found", { status: 404 });
+if (!slug) return new Response("商品が見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 
 const { entries: products } = await getEmDashCollection("products");
 const record = products.find((p) => p.data.slug === slug || p.id === slug);
 
-if (!record) return new Response("Product not found", { status: 404 });
+if (!record) return new Response("商品が見つかりません", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
 
 // Canonical redirect: ULID → slug
 if (record.data.slug && slug !== record.data.slug) {
@@ -78,6 +78,13 @@ const typeGrad: Record<string, string> = {
   external:     "linear-gradient(135deg,#1a001f,#2d0a38)",
 };
 const getGrad = (type?: string) => (type && typeGrad[type as string]) ?? typeGrad.simple;
+const typeLabels: Record<string, string> = {
+  simple: "物販",
+  variable: "バリエーション",
+  grouped: "セット",
+  subscription: "定期購入",
+  external: "外部リンク",
+};
 
 const priceMap = (d.prices ?? {}) as Record<string, { amount: number; compareAtAmount?: number }>;
 const firstCurrency = Object.keys(priceMap)[0];
@@ -107,7 +114,7 @@ const jsonLd = JSON.stringify({
   name: d.title,
   sku: d.sku,
   ...(d.description
-    ? { description: typeof d.description === "string" ? d.description : "See product page for details." }
+    ? { description: typeof d.description === "string" ? d.description : "詳細は商品ページをご覧ください。" }
     : {}),
   url: canonical,
   ...(firstPrice && firstCurrency
@@ -115,7 +122,7 @@ const jsonLd = JSON.stringify({
         offers: {
           "@type": "Offer",
           priceCurrency: firstCurrency,
-          price: firstPrice.amount / 10 ** new Intl.NumberFormat("en-US", { style: "currency", currency: firstCurrency }).resolvedOptions().maximumFractionDigits,
+          price: firstPrice.amount / 10 ** new Intl.NumberFormat("ja-JP", { style: "currency", currency: firstCurrency }).resolvedOptions().maximumFractionDigits,
           availability: d.stock_status === "outofstock"
             ? "https://schema.org/OutOfStock"
             : "https://schema.org/InStock",
@@ -128,21 +135,21 @@ const jsonLd = JSON.stringify({
 const descStr = typeof d.description === "string" ? d.description : "";
 const metaDescription = descStr.length > 0
   ? descStr.slice(0, 155)
-  : `${d.title} — available from ${Astro.url.host}.`;
+  : `${d.title} — ${Astro.url.host} でご覧いただけます。`;
 ---
 
 <Shop
-  title={d.title ?? "Product"}
+  title={d.title ?? "商品"}
   description={metaDescription}
   canonical={canonical}
   ogType="product"
   jsonLd={jsonLd}
 >
   <!-- Breadcrumb -->
-  <nav class="breadcrumb container" aria-label="Breadcrumb">
-    <a href="/">Home</a>
+  <nav class="breadcrumb container" aria-label="パンくず">
+    <a href="/">ホーム</a>
     <span aria-hidden="true">›</span>
-    <a href="/shop">Shop</a>
+    <a href="/shop">ショップ</a>
     <span aria-hidden="true">›</span>
     <span aria-current="page">{d.title}</span>
   </nav>
@@ -156,19 +163,19 @@ const metaDescription = descStr.length > 0
           <div class="pdp-main-img pdp-main-img-real" data-pdp-main>
             {galleryImages.map((img, i) => (
               <div class="pdp-main-slot" data-pdp-slot={i} data-active={i === 0 ? "true" : "false"}>
-                <Image image={img} alt={`${d.title ?? "Product"} image ${i + 1}`} />
+                <Image image={img} alt={`${d.title ?? "商品"}の画像 ${i + 1}`} />
               </div>
             ))}
           </div>
           {galleryImages.length > 1 && (
-            <div class="pdp-thumbs" role="tablist" aria-label="Product images">
+            <div class="pdp-thumbs" role="tablist" aria-label="商品画像">
               {galleryImages.map((img, i) => (
                 <button
                   type="button"
                   class="pdp-thumb"
                   role="tab"
                   aria-selected={i === 0 ? "true" : "false"}
-                  aria-label={`Show image ${i + 1}`}
+                  aria-label={`画像 ${i + 1} を表示`}
                   data-pdp-thumb={i}
                 >
                   <Image image={img} alt="" />
@@ -187,13 +194,13 @@ const metaDescription = descStr.length > 0
       {/* Product type badge */}
       <div class="pdp-type-badge">
         <span class="pdp-type-dot"></span>
-        {(d.type as string) ?? "product"}
+        {typeLabels[d.type as string] ?? (d.type as string) ?? "商品"}
       </div>
 
       {/* SKU */}
       {d.sku && (
         <p class="pdp-sku">
-          <span class="pdp-sku-label">SKU</span>
+          <span class="pdp-sku-label">商品コード</span>
           <span class="pdp-sku-val">{d.sku}</span>
         </p>
       )}
@@ -205,7 +212,7 @@ const metaDescription = descStr.length > 0
         <div class="pdp-taxonomies">
           {productCategories.length > 0 && (
             <div class="pdp-tax-row">
-              <span class="pdp-tax-label">In</span>
+              <span class="pdp-tax-label">カテゴリー</span>
               {productCategories.map((c) => (
                 <a href={`/category/${c.slug}`} class="pdp-chip pdp-chip-cat">
                   {c.label}
@@ -215,7 +222,7 @@ const metaDescription = descStr.length > 0
           )}
           {productTags.length > 0 && (
             <div class="pdp-tax-row">
-              <span class="pdp-tax-label">Tagged</span>
+              <span class="pdp-tax-label">タグ</span>
               {productTags.map((t) => (
                 <a href={`/tag/${t.slug}`} class="pdp-chip pdp-chip-tag">
                   <span class="pdp-chip-hash">#</span>{t.label}
@@ -240,7 +247,7 @@ const metaDescription = descStr.length > 0
   <!-- Related products -->
   {related.length > 0 && (
     <section class="container related-section">
-      <h2 class="related-title">More like this</h2>
+      <h2 class="related-title">こちらもおすすめ</h2>
       <div class="related-grid">
         {relatedCards.map((c) => (
           <a href={c.href} class="related-card">
@@ -259,7 +266,7 @@ const metaDescription = descStr.length > 0
 
   <!-- Back to shop -->
   <div class="container pdp-back">
-    <a href="/shop" class="btn-ghost">← Back to shop</a>
+    <a href="/shop" class="btn-ghost">ショップに戻る</a>
   </div>
 
 </Shop>

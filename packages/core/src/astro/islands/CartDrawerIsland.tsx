@@ -41,7 +41,7 @@ function moneyMinorDigits(currency: string, locale: string) {
 	return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions().maximumFractionDigits;
 }
 
-function formatMoney(m: Money, locale = "en-US") {
+function formatMoney(m: Money, locale = "ja-JP") {
 	try {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",
@@ -118,12 +118,12 @@ export default function CartDrawerIsland({
 				error?: string;
 			};
 			if (!res.ok) {
-				setError(body.error ?? `Update failed (${res.status})`);
+				setError(body.error ?? `更新できませんでした（${res.status}）`);
 				return;
 			}
 			applyCart(body.cart ?? null);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -142,12 +142,12 @@ export default function CartDrawerIsland({
 				error?: string;
 			};
 			if (!res.ok) {
-				setError(body.error ?? `Remove failed (${res.status})`);
+				setError(body.error ?? `削除できませんでした（${res.status}）`);
 				return;
 			}
 			applyCart(body.cart ?? null);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -155,7 +155,7 @@ export default function CartDrawerIsland({
 
 	async function clearCart() {
 		const confirmed = window.confirm(
-			"Remove everything from your cart?",
+			"カートの商品をすべて削除しますか？",
 		);
 		if (!confirmed) return;
 		setPending(true);
@@ -170,12 +170,12 @@ export default function CartDrawerIsland({
 				error?: string;
 			};
 			if (!res.ok) {
-				setError(body.error ?? `Clear failed (${res.status})`);
+				setError(body.error ?? `カートを空にできませんでした（${res.status}）`);
 				return;
 			}
 			applyCart(body.cart ?? null);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 		} finally {
 			setPending(false);
 		}
@@ -189,18 +189,18 @@ export default function CartDrawerIsland({
 				type="button"
 				className="dc-cart-trigger"
 				onClick={() => setOpen(!open)}
-				aria-label="Cart"
+				aria-label="カート"
 			>
-				Cart {itemCount > 0 && <span>({itemCount})</span>}
+				カート {itemCount > 0 && <span>({itemCount})</span>}
 			</button>
 			{open && (
-				<aside className="dc-cart-drawer" aria-label="Shopping cart">
+				<aside className="dc-cart-drawer" aria-label="ショッピングカート">
 					<header>
-						<h3>Cart</h3>
+						<h3>カート</h3>
 						<button
 							type="button"
 							onClick={() => setOpen(false)}
-							aria-label="Close"
+							aria-label="閉じる"
 						>
 							×
 						</button>
@@ -227,11 +227,11 @@ export default function CartDrawerIsland({
 											<div
 												className="dc-qty-controls"
 												role="group"
-												aria-label={`Quantity of ${it.title}`}
+												aria-label={`${it.title}の数量`}
 											>
 												<button
 													type="button"
-													aria-label={`Decrease quantity of ${it.title}`}
+													aria-label={`${it.title}の数量を減らす`}
 													disabled={pending || it.quantity <= 1}
 													onClick={() => updateQuantity(it.lineId, it.quantity - 1)}
 												>
@@ -242,7 +242,7 @@ export default function CartDrawerIsland({
 												</span>
 												<button
 													type="button"
-													aria-label={`Increase quantity of ${it.title}`}
+													aria-label={`${it.title}の数量を増やす`}
 													disabled={pending}
 													onClick={() => updateQuantity(it.lineId, it.quantity + 1)}
 												>
@@ -252,8 +252,8 @@ export default function CartDrawerIsland({
 											<button
 												type="button"
 												className="dc-remove"
-												aria-label={`Remove ${it.title}`}
-												title="Remove"
+												aria-label={`${it.title}を削除`}
+												title="削除"
 												disabled={pending}
 												onClick={() => removeLine(it.lineId)}
 											>
@@ -265,37 +265,37 @@ export default function CartDrawerIsland({
 							</ul>
 							<footer>
 								<div className="dc-total-row dc-grand">
-									<strong>Total</strong>
+									<strong>合計</strong>
 									<strong>{formatMoney(cart.total)}</strong>
 								</div>
 								<a className="dc-checkout-button" href={checkoutHref}>
-									Checkout
+									レジに進む
 								</a>
 								<div className="dc-cart-secondary">
 									<a href={cartHref} className="dc-view-cart">
-										View cart →
+										カートを見る
 									</a>
 									<button
 										type="button"
 										className="dc-clear-cart"
 										onClick={clearCart}
 										disabled={pending}
-										aria-label="Clear cart"
+										aria-label="カートを空にする"
 									>
-										Clear cart
+										カートを空にする
 									</button>
 								</div>
 							</footer>
 						</>
 					) : (
 						<div className="dc-cart-drawer-empty">
-							<p>Your cart is empty.</p>
+							<p>カートは空です。</p>
 							<a
 								href="/shop"
 								className="dc-checkout-button"
 								onClick={() => setOpen(false)}
 							>
-								Continue shopping
+								買い物を続ける
 							</a>
 						</div>
 					)}

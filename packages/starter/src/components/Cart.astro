@@ -10,23 +10,23 @@ interface Props {
 	askEmail?: boolean;
 	emptyText?: string;
 }
-const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
+const { askEmail = true, emptyText = "カートは空です。" } = Astro.props;
 ---
 
 <section class="dc-cart" data-dc-cart data-dc-empty-text={emptyText}>
-	<p class="dc-cart-loading">Loading cart...</p>
+	<p class="dc-cart-loading">カートを読み込んでいます…</p>
 	<ul class="dc-cart-lines" data-dc-lines></ul>
 	<dl class="dc-cart-totals" data-dc-totals hidden>
-		<dt>Subtotal</dt><dd data-dc-subtotal></dd>
-		<dt data-dc-shipping-row>Shipping</dt><dd data-dc-shipping></dd>
-		<dt data-dc-tax-row>Tax</dt><dd data-dc-tax></dd>
-		<dt>Total</dt><dd data-dc-total></dd>
+		<dt>小計</dt><dd data-dc-subtotal></dd>
+		<dt data-dc-shipping-row>送料</dt><dd data-dc-shipping></dd>
+		<dt data-dc-tax-row>税</dt><dd data-dc-tax></dd>
+		<dt>合計</dt><dd data-dc-total></dd>
 	</dl>
 	<form class="dc-checkout" data-dc-checkout hidden>
 		{askEmail && (
-			<label>Email <input type="email" name="email" autocomplete="email" /></label>
+			<label>メールアドレス <input type="email" name="email" autocomplete="email" placeholder="example@example.com" /></label>
 		)}
-		<button type="submit">Checkout</button>
+		<button type="submit">レジに進む</button>
 		<p class="dc-message" data-dc-message role="status" aria-live="polite"></p>
 	</form>
 </section>
@@ -52,7 +52,7 @@ const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
 		lines.replaceChildren();
 		if (cart.items.length === 0) {
 			const li = document.createElement("li");
-			li.textContent = root.dataset.dcEmptyText ?? "Your cart is empty.";
+			li.textContent = root.dataset.dcEmptyText ?? "カートは空です。";
 			lines.append(li);
 		}
 		for (const item of cart.items) {
@@ -65,13 +65,13 @@ const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
 			qty.min = "0";
 			qty.max = "99";
 			qty.value = String(item.quantity);
-			qty.setAttribute("aria-label", `Quantity of ${item.title}`);
+			qty.setAttribute("aria-label", `${item.title}の数量`);
 			qty.addEventListener("change", () => update(item.lineId, Number(qty.value)));
 			const price = document.createElement("span");
 			price.textContent = formatMoney(item.lineSubtotal);
 			const remove = document.createElement("button");
 			remove.type = "button";
-			remove.textContent = "Remove";
+			remove.textContent = "削除";
 			remove.addEventListener("click", () => update(item.lineId, 0));
 			li.append(title, qty, price, remove);
 			lines.append(li);
@@ -81,7 +81,7 @@ const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
 		form.hidden = empty;
 		text("[data-dc-subtotal]", formatMoney(cart.subtotal));
 		text("[data-dc-shipping]", formatMoney(cart.shippingTotal));
-		text("[data-dc-tax]", cart.taxAtCheckout ? "Calculated at checkout" : formatMoney(cart.taxTotal));
+		text("[data-dc-tax]", cart.taxAtCheckout ? "レジで計算" : formatMoney(cart.taxTotal));
 		text("[data-dc-total]", formatMoney(cart.total));
 	}
 
@@ -89,7 +89,7 @@ const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
 		try {
 			await shop.updateItem(lineId, quantity);
 		} catch (err) {
-			text("[data-dc-message]", err instanceof Error ? err.message : "Could not update the cart");
+			text("[data-dc-message]", err instanceof Error ? err.message : "カートを更新できませんでした");
 			render(await shop.getCart());
 		}
 	}
@@ -105,7 +105,7 @@ const { askEmail = true, emptyText = "Your cart is empty." } = Astro.props;
 		try {
 			await shop.redirectToCheckout(typeof email === "string" && email ? { email } : {});
 		} catch (err) {
-			text("[data-dc-message]", err instanceof Error ? err.message : "Could not start checkout");
+			text("[data-dc-message]", err instanceof Error ? err.message : "レジに進めませんでした");
 			if (button) button.disabled = false;
 		}
 	});

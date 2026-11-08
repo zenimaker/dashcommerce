@@ -189,7 +189,7 @@ export const cartRoutes = {
 
 			const product = await loadProduct(ctx, body.productId);
 			if (!product) {
-				return errorResponse("Product not found or unavailable", 404, setCookie);
+				return errorResponse("商品が見つからないか、購入できません", 404, setCookie);
 			}
 
 			// emdash stores commerce fields under their snake_case slugs.
@@ -208,7 +208,7 @@ export const cartRoutes = {
 				variant = await getVariant(ctx, body.variantId);
 				if (!isVariantOfProduct(variant, productId)) {
 					return errorResponse(
-						"Variant does not belong to this product or is inactive",
+						"このバリエーションはこの商品に属していないか、無効です",
 						400,
 						setCookie,
 					);
@@ -229,11 +229,11 @@ export const cartRoutes = {
 				);
 				const hint =
 					switchable.length > 0
-						? `Try switching the storefront currency to ${switchable.join(", ")}.`
-						: "Ask the shop operator to price this product in your currency.";
+						? `表示通貨を ${switchable.join("、")} に切り替えてみてください。`
+						: "この通貨の価格は、ショップ側の設定が必要です。";
 				return jsonResponse(
 					{
-						error: `This product isn't priced in ${cart.currency}. ${hint}`,
+						error: `この商品は ${cart.currency} の価格がありません。${hint}`,
 						code: "currency_not_priced",
 						cartCurrency: cart.currency,
 						availableCurrencies: available,
@@ -340,7 +340,7 @@ export const cartRoutes = {
 			const enabled = (await ctx.kv.get<string[]>("settings:enabledCurrencies")) ?? [];
 			if (enabled.length > 0 && !enabled.includes(code)) {
 				return errorResponse(
-					`Currency ${code} is not enabled for this store`,
+					`通貨 ${code} はこのショップでは使えません`,
 					400,
 				);
 			}
@@ -353,7 +353,7 @@ export const cartRoutes = {
 				return jsonResponse({ cart: saved }, withSessionCookie(setCookie));
 			} catch (err) {
 				return errorResponse(
-					err instanceof Error ? err.message : "Could not switch currency",
+					err instanceof Error ? err.message : "通貨を切り替えられませんでした",
 					409,
 					setCookie,
 				);
@@ -464,7 +464,7 @@ export const cartRoutes = {
 			}
 
 			if (!cart.items.some((i) => i.lineId === lineId)) {
-				return errorResponse("Cart line not found", 404, setCookie);
+				return errorResponse("カート内の商品が見つかりません", 404, setCookie);
 			}
 
 			const withItems = { ...cart, items };
@@ -499,7 +499,7 @@ export const cartRoutes = {
 				limit: 1,
 			});
 			const row = result.items[0];
-			if (!row) return errorResponse("Coupon not found", 404, setCookie);
+			if (!row) return errorResponse("クーポンが見つかりません", 404, setCookie);
 			const coupon: Coupon = { ...row.data, id: row.id };
 
 			const validation = validateCoupon(coupon, { cart });
@@ -521,7 +521,7 @@ export const cartRoutes = {
 				return jsonResponse({ cart: saved }, withSessionCookie(setCookie));
 			} catch (err) {
 				return errorResponse(
-					err instanceof Error ? err.message : "Could not apply coupon",
+					err instanceof Error ? err.message : "クーポンを適用できませんでした",
 					409,
 					setCookie,
 				);
@@ -586,10 +586,10 @@ export const cartRoutes = {
 			const country = body.country?.trim().toUpperCase();
 			const postalCode = body.postalCode?.trim();
 			if (!country || country.length !== 2) {
-				return errorResponse("country (ISO-2) required", 400);
+				return errorResponse("国（ISO-2）が必要です", 400);
 			}
 			if (!postalCode) {
-				return errorResponse("postalCode required", 400);
+				return errorResponse("郵便番号が必要です", 400);
 			}
 			const { sessionId, setCookie } = resolveSessionId(routeCtx.request);
 			const cart = await getOrCreate(ctx, sessionId, await defaultCurrency(ctx));
@@ -686,7 +686,7 @@ export const cartRoutes = {
 			const { sessionId, setCookie } = resolveSessionId(routeCtx.request);
 			const cart = await getOrCreate(ctx, sessionId, await defaultCurrency(ctx));
 			if (!cart.shippingAddress) {
-				return errorResponse("Set a shipping address first", 409, setCookie);
+				return errorResponse("先にお届け先を入力してください", 409, setCookie);
 			}
 			const zonesStore = (
 				ctx.storage as unknown as {
@@ -714,7 +714,7 @@ export const cartRoutes = {
 		}));
 		const zone = pickZone(cart.shippingAddress, zones);
 		if (!zone) {
-			return errorResponse("No shipping zone matches the address", 409, setCookie);
+			return errorResponse("その住所に対応する配送地域がありません", 409, setCookie);
 		}
 		// Fetch all methods and filter in JS — EmDash's .where builds SQLite-style
 		// SQL that breaks on Postgres (syntax error near "="). This fetch+filter
@@ -730,7 +730,7 @@ export const cartRoutes = {
 			});
 			const chosen = options.find((o) => o.methodId === body.methodId);
 			if (!chosen) {
-				return errorResponse("Invalid method for this cart", 409, setCookie);
+				return errorResponse("このカートでは選べない配送方法です", 409, setCookie);
 			}
 			const nextCart: CartState = {
 				...cart,

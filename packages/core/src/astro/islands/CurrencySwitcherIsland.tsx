@@ -31,7 +31,7 @@ interface CartResponse {
 export default function CurrencySwitcherIsland({
 	currencies: initialCurrencies,
 	current: initialCurrent,
-	label = "Currency",
+	label = "通貨",
 	afterChange = "auto-reload",
 }: CurrencySwitcherIslandProps) {
 	const [currencies, setCurrencies] = useState<string[]>(
@@ -81,7 +81,7 @@ export default function CurrencySwitcherIsland({
 				);
 			} catch (err) {
 				if (!alive) return;
-				setError(err instanceof Error ? err.message : "Could not load currencies");
+				setError(err instanceof Error ? err.message : "通貨一覧を読み込めませんでした");
 			}
 		}
 		boot();
@@ -123,7 +123,7 @@ export default function CurrencySwitcherIsland({
 			);
 			const body = (await res.json().catch(() => ({}))) as { error?: string };
 			if (!res.ok) {
-				setError(body.error ?? "Could not switch currency");
+				setError(body.error ?? "通貨を切り替えられませんでした");
 				setPending(false);
 				return;
 			}
@@ -138,7 +138,7 @@ export default function CurrencySwitcherIsland({
 				setPending(false);
 			}
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 			setPending(false);
 		}
 	}
@@ -148,8 +148,8 @@ export default function CurrencySwitcherIsland({
 	}
 
 	const title = cartHasItems
-		? "Empty your cart to switch currency"
-		: "Change display currency";
+		? "通貨を切り替えるには、カートを空にしてください"
+		: "表示通貨を変更";
 
 	return (
 		<label className="dc-currency-switcher" title={title}>

@@ -61,7 +61,7 @@ const metaDescription = description ?? meta.tagline ?? "";
 const ogImage = image ?? "/og-default.png";
 ---
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <ThemeInit />
@@ -89,6 +89,7 @@ const ogImage = image ?? "/og-default.png";
     </style>
     <!-- OG / Twitter -->
     <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="ja_JP" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={canonical} />
@@ -103,7 +104,7 @@ const ogImage = image ?? "/og-default.png";
   </head>
   <body>
     <div style="text-align:center;padding:.55rem 1rem;background:#c8a165;color:#111;font-size:.8rem">公開デモ · 商品閲覧・カートのみ · 決済・ログインは利用できません</div>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">本文へスキップ</a>
     {!noHeader && <Header />}
     <main id="main">
       <slot />

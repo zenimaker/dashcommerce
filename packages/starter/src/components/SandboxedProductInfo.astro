@@ -17,7 +17,7 @@ const prices = (data.prices ?? {}) as PriceMap;
 const currency = Object.keys(prices)[0];
 const price = currency ? prices[currency] : undefined;
 const format = (amount: number, cur: string) => {
-	const fmt = new Intl.NumberFormat("en-US", { style: "currency", currency: cur });
+	const fmt = new Intl.NumberFormat("ja-JP", { style: "currency", currency: cur });
 	const digits = fmt.resolvedOptions().maximumFractionDigits ?? 2;
 	return fmt.format(amount / 10 ** digits);
 };
@@ -42,13 +42,13 @@ const description = typeof data.short_description === "string"
 	)}
 	{description && <p class="sbx-desc">{description}</p>}
 	{!sellable ? (
-		<p class="sbx-note">This product type cannot be bought in this store.</p>
+		<p class="sbx-note">この商品タイプは、このショップでは購入できません。</p>
 	) : outOfStock ? (
-		<p class="sbx-note">Out of stock</p>
+		<p class="sbx-note">在庫切れ</p>
 	) : (
 		<AddToCart productId={id} class="sbx-add" />
 	)}
-	<p class="sbx-cart-link"><a href="/cart">View cart</a></p>
+	<p class="sbx-cart-link"><a href="/cart">カートを見る</a></p>
 </div>
 
 <style>

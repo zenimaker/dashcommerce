@@ -35,13 +35,13 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 			});
 			const json = (await res.json()) as { error?: string };
 			if (!res.ok) {
-				setError(json.error ?? "Could not submit review");
+				setError(json.error ?? "レビューを送信できませんでした");
 				setState("idle");
 				return;
 			}
 			setState("submitted");
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Network error");
+			setError(err instanceof Error ? err.message : "通信エラーです");
 			setState("idle");
 		}
 	}
@@ -58,17 +58,17 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 					borderRadius: "var(--radius-lg, 8px)",
 				}}
 			>
-				<p>Thanks for your review! It'll appear once a moderator approves it.</p>
+				<p>レビューをありがとうございました。掲載まで、確認をお待ちください。</p>
 			</div>
 		);
 	}
 
 	return (
 		<form onSubmit={onSubmit} className="dc-review-form">
-			<h3>Leave a review</h3>
+			<h3>レビューを書く</h3>
 			{error && <p role="alert" className="dc-review-form__error">{error}</p>}
 			<label>
-				Rating{" "}
+				評価{" "}
 				<select
 					value={rating}
 					onChange={(e) => setRating(Number(e.currentTarget.value))}
@@ -81,7 +81,7 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 				</select>
 			</label>
 			<label>
-				Your name{" "}
+				お名前{" "}
 				<input
 					required
 					value={customerName}
@@ -89,7 +89,7 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 				/>
 			</label>
 			<label>
-				Your email{" "}
+				メールアドレス{" "}
 				<input
 					required
 					type="email"
@@ -98,14 +98,14 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 				/>
 			</label>
 			<label>
-				Title (optional){" "}
+				タイトル（任意）{" "}
 				<input
 					value={title}
 					onChange={(e) => setTitle(e.currentTarget.value)}
 				/>
 			</label>
 			<label>
-				Review{" "}
+				レビュー{" "}
 				<textarea
 					required
 					rows={4}
@@ -114,7 +114,7 @@ export default function ReviewFormIsland({ productId }: ReviewFormIslandProps) {
 				/>
 			</label>
 			<button type="submit" disabled={state === "submitting"} className="dc-review-form__submit">
-				{state === "submitting" ? "Submitting…" : "Submit review"}
+				{state === "submitting" ? "送信しています…" : "レビューを送信"}
 			</button>
 			<style>{`
 				.dc-review-form { color: var(--text, #111); }

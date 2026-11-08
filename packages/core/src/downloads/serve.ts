@@ -77,7 +77,7 @@ export async function serveDownload(
 	if (!target && grant.externalUrl) target = grant.externalUrl;
 	if (!target) {
 		return {
-			response: jsonResponse({ error: "Download target unavailable" }, 404),
+			response: jsonResponse({ error: "ダウンロード先が見つかりません" }, 404),
 			grantId: verified.grantId,
 		};
 	}

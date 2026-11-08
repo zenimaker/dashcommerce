@@ -52,7 +52,7 @@ function isActive(href: string | undefined): boolean {
     <button
       type="button"
       class="nav-trigger"
-      aria-label="Open menu"
+      aria-label="メニューを開く"
       aria-expanded="false"
       aria-controls="mobile-nav"
       data-nav-trigger
@@ -64,7 +64,7 @@ function isActive(href: string | undefined): boolean {
     <SiteLogo variant="header" class="logo" />
 
     <!-- Primary nav (desktop) -->
-    <nav class="main-nav" aria-label="Main navigation">
+    <nav class="main-nav" aria-label="メインメニュー">
       {items.map((link) => {
         const hasChildren = link.children && link.children.length > 0;
         const classes = link.cssClasses ?? "";
@@ -85,11 +85,11 @@ function isActive(href: string | undefined): boolean {
             </a>
 
             {hasChildren && (
-              <div class="mega-menu" role="region" aria-label={`${link.label} categories`}>
+              <div class="mega-menu" role="region" aria-label={`${link.label}のカテゴリー`}>
                 <div class="mega-inner">
                   <div class="mega-header">
-                    <p class="mega-eyebrow">Browse {link.label.toLowerCase()}</p>
-                    <a href={link.url} class="mega-all">View all →</a>
+                    <p class="mega-eyebrow">{link.label}を見る</p>
+                    <a href={link.url} class="mega-all">すべて見る</a>
                   </div>
                   {link.children?.some((c) => c.children && c.children.length > 0) ? (
                     // Any direct child has grand-children → render every
@@ -149,7 +149,7 @@ function isActive(href: string | undefined): boolean {
     <!-- Actions -->
     <div class="header-actions">
       {SANDBOXED ? (
-        <a href="/cart" class="icon-btn sbx-cart" aria-label="Cart">
+        <a href="/cart" class="icon-btn sbx-cart" aria-label="カート">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M6 6h15l-1.5 9h-12z" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M6 6L5 3H2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -159,8 +159,8 @@ function isActive(href: string | undefined): boolean {
         </a>
       ) : (
         <>
-          <CurrencySwitcher label="Currency" />
-          <a href="/account" class="icon-btn" aria-label="Your account">
+          <CurrencySwitcher label="通貨" />
+          <a href="/account" class="icon-btn" aria-label="アカウント">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-linecap="round" stroke-linejoin="round"/>
               <circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -176,17 +176,17 @@ function isActive(href: string | undefined): boolean {
 <!-- Mobile slide-in drawer -->
 <div class="mobile-nav" id="mobile-nav" data-mobile-nav hidden>
   <div class="mobile-nav-backdrop" data-nav-close></div>
-  <aside class="mobile-nav-panel" aria-label="Main navigation" role="dialog" aria-modal="true">
+  <aside class="mobile-nav-panel" aria-label="メインメニュー" role="dialog" aria-modal="true">
     <div class="mobile-nav-head">
       <SiteLogo variant="header" class="logo" data-nav-close />
-      <button type="button" class="mobile-nav-close" aria-label="Close menu" data-nav-close>
+      <button type="button" class="mobile-nav-close" aria-label="メニューを閉じる" data-nav-close>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
 
-    <nav class="mobile-nav-list" aria-label="Main">
+    <nav class="mobile-nav-list" aria-label="メイン">
       {items.map((link) => {
         const hasChildren = link.children && link.children.length > 0;
         return (
@@ -244,7 +244,7 @@ function isActive(href: string | undefined): boolean {
           <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        {SANDBOXED ? "Cart" : "Your account"}
+        {SANDBOXED ? "カート" : "アカウント"}
       </a>
     </div>
   </aside>

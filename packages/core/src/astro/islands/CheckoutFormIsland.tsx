@@ -93,13 +93,13 @@ export default function CheckoutFormIsland({
 			if (!res.ok) {
 				// Let the customer retry once they fix whatever's missing.
 				startedRef.current = false;
-				setError(("error" in body && body.error) || "Could not start checkout");
+				setError(("error" in body && body.error) || "レジを開始できませんでした");
 				return;
 			}
 			setIntent(body as IntentResponse);
 		} catch (err) {
 			startedRef.current = false;
-			setError(err instanceof Error ? err.message : "Could not start checkout");
+			setError(err instanceof Error ? err.message : "レジを開始できませんでした");
 		}
 	}, [publishableKey]);
 
@@ -124,9 +124,9 @@ export default function CheckoutFormIsland({
 		};
 	}, [start]);
 
-	if (error) return <div role="alert">Checkout unavailable: {error}</div>;
+	if (error) return <div role="alert">レジを利用できません: {error}</div>;
 	if (!intent || !stripeModule || !stripePromise) {
-		return <div>Loading checkout…</div>;
+		return <div>レジを読み込んでいます…</div>;
 	}
 
 	const { Elements } = stripeModule;
@@ -165,7 +165,7 @@ function InnerForm({
 			confirmParams: { return_url: returnUrl },
 		});
 		if (error) {
-			setError(error.message ?? "Payment failed");
+			setError(error.message ?? "お支払いに失敗しました");
 		}
 		setSubmitting(false);
 	}
@@ -178,7 +178,7 @@ function InnerForm({
 				className="dc-checkout-form__submit"
 				disabled={!stripe || submitting}
 			>
-				{submitting ? "Processing…" : "Pay now"}
+				{submitting ? "処理しています…" : "支払う"}
 			</button>
 			{error && (
 				<p role="alert" className="dc-checkout-form__error">
