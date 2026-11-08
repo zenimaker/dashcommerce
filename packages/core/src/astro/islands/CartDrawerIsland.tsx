@@ -37,14 +37,18 @@ interface CartState {
 	currency: string;
 }
 
+function moneyMinorDigits(currency: string, locale: string) {
+	return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions().maximumFractionDigits;
+}
+
 function formatMoney(m: Money, locale = "en-US") {
 	try {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",
 			currency: m.currency,
-		}).format(m.amount / 100);
+		}).format(m.amount / 10 ** moneyMinorDigits(m.currency, locale));
 	} catch {
-		return `${m.currency} ${m.amount / 100}`;
+		return `${m.currency} ${m.amount / 10 ** moneyMinorDigits(m.currency, locale)}`;
 	}
 }
 

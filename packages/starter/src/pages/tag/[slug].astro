@@ -19,6 +19,7 @@ import {
 	getTerm,
 } from "emdash";
 import Shop from "../../layouts/Shop.astro";
+import { currencyMinorDigits } from "../../lib/money";
 
 export const prerender = false;
 
@@ -37,7 +38,7 @@ const fmt = (priceMap?: PriceMap) => {
 	return new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD",
-	}).format(p.amount / 100);
+	}).format(p.amount / 10 ** currencyMinorDigits("USD"));
 };
 
 const typeGrad: Record<string, string> = {

@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import "../styles/custom.css";
+import ThemeInit from "../components/ThemeInit.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { getSiteMeta } from "../lib/site-meta";
@@ -62,6 +64,7 @@ const ogImage = image ?? "/og-default.png";
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <ThemeInit />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={metaDescription} />
@@ -78,6 +81,12 @@ const ogImage = image ?? "/og-default.png";
       rel="stylesheet"
     />
 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style is:global>
+      :root { --font-sans: "Noto Sans JP", sans-serif !important; --font-display: "Noto Sans JP", sans-serif !important; --font-mono: "Noto Sans JP", sans-serif !important; font-family: "Noto Sans JP", sans-serif !important; }
+      html, body, button, input, select, textarea { font-family: "Noto Sans JP", sans-serif !important; }
+      * { font-family: "Noto Sans JP", sans-serif !important; }
+    </style>
     <!-- OG / Twitter -->
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={fullTitle} />
@@ -93,6 +102,7 @@ const ogImage = image ?? "/og-default.png";
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
+    <div style="text-align:center;padding:.55rem 1rem;background:#c8a165;color:#111;font-size:.8rem">公開デモ · 商品閲覧・カートのみ · 決済・ログインは利用できません</div>
     <a class="skip-link" href="#main">Skip to content</a>
     {!noHeader && <Header />}
     <main id="main">

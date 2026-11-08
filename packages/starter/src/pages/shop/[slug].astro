@@ -1,5 +1,7 @@
 ---
 import { getEmDashCollection, getEntryTerms } from "emdash";
+import { getDb } from "emdash/runtime";
+import { formatMoney } from "../../lib/money";
 import { Image } from "emdash/ui";
 import Shop from "../../layouts/Shop.astro";
 import ProductDetails, { type ProductDetailsProduct } from "@dashcommerce/core/astro/components/ProductDetails.astro";
@@ -28,6 +30,16 @@ const d = record.data;
 // `/category/{slug}`. Emdash expects the database ID (not the public
 // slug) when resolving taxonomy relationships.
 const productDbId = String(d.id ?? record.id);
+const variants = await (await getDb())
+  .selectFrom("_plugin_storage")
+  .select(["id", "data"])
+  .where("plugin_id", "=", "dashcommerce")
+  .where("collection", "=", "product_variants")
+  .where(({ fn, val }) => fn("json_extract", ["data", val("$.productId")]), "=", productDbId)
+  .where(({ fn, val }) => fn("json_extract", ["data", val("$.isActive")]), "=", 1)
+  .orderBy("created_at").orderBy("id")
+  .execute()
+  .then((rows) => rows.map(({ id, data }) => ({ ...JSON.parse(data), id })));
 const productCategories = await getEntryTerms(
   "products",
   productDbId,
@@ -74,15 +86,16 @@ const canonical     = `${Astro.url.origin}/shop/${d.slug ?? record.id}`;
 
 const relatedCards = related.map((p) => {
   const pm = p.data.prices as PriceMap;
-  const priceEntry = firstCurrency ? pm?.[firstCurrency] : undefined;
+  const priceCurrency = firstCurrency ?? Object.keys(pm ?? {})[0];
+  const priceEntry = priceCurrency ? pm?.[priceCurrency] : undefined;
   const img = p.data.featured_image ?? p.data.gallery_2 ?? null;
   return {
     href:  `/shop/${p.data.slug ?? p.id}`,
     title: String(p.data.title ?? ""),
     grad:  getGrad(String(p.data.type)),
     image: img ?? null,
-    price: priceEntry && firstCurrency
-      ? new Intl.NumberFormat("en-US", { style: "currency", currency: firstCurrency }).format(priceEntry.amount / 100)
+    price: priceEntry && priceCurrency
+      ? formatMoney(priceEntry.amount, priceCurrency)
       : null,
   };
 });
@@ -102,7 +115,7 @@ const jsonLd = JSON.stringify({
         offers: {
           "@type": "Offer",
           priceCurrency: firstCurrency,
-          price: (firstPrice.amount / 100).toFixed(2),
+          price: firstPrice.amount / 10 ** new Intl.NumberFormat("en-US", { style: "currency", currency: firstCurrency }).resolvedOptions().maximumFractionDigits,
           availability: d.stock_status === "outofstock"
             ? "https://schema.org/OutOfStock"
             : "https://schema.org/InStock",
@@ -219,7 +232,7 @@ const metaDescription = descStr.length > 0
       {SANDBOXED ? (
         <SandboxedProductInfo id={productDbId} data={d as unknown as Record<string, unknown>} />
       ) : (
-        <ProductDetails product={record as unknown as ProductDetailsProduct} />
+        <ProductDetails product={record as unknown as ProductDetailsProduct} variants={variants} />
       )}
     </div>
   </div>

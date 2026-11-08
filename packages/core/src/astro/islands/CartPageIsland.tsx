@@ -53,9 +53,9 @@ function formatMoney(m: Money | null | undefined, locale = "en-US") {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",
 			currency: m.currency,
-		}).format(m.amount / 100);
+		}).format(m.amount / 10 ** moneyMinorDigits(m.currency, locale));
 	} catch {
-		return `${m.currency} ${m.amount / 100}`;
+		return `${m.currency} ${m.amount / 10 ** moneyMinorDigits(m.currency, locale)}`;
 	}
 }
 
